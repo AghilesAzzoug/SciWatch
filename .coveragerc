@@ -1,0 +1,27 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+
+omit =
+    tests/*
+
+source = src/
+
+[report]
+exclude_lines =
+    pragma: no cover
+    @abstractmethod
+
+    def __repr__
+
+    raise AssertionError
+    raise NotImplementedError
+
+    if 0:
+    if __name__ == .__main__.:
+
+ignore_errors = True
+show_missing = True
+
+[html]
+directory = htmlcov

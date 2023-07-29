@@ -1,0 +1,42 @@
+name: sphinx-docs
+on:
+  workflow_run:
+    workflows: [ "unit-tests" ]
+    types:
+      - completed
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.10" ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'poetry'
+
+      - name: Install dependencies
+        run: |
+          sudo apt update -y
+          sudo apt upgrade -y
+          python -m pip install --upgrade pip
+          make install-dev
+
+      - name: Sphinx build
+        run: |
+          make docs
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: docs/_build/html
+          force_orphan: true

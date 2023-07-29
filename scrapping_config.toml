@@ -1,0 +1,33 @@
+title = "Relevent papers"
+
+end_date = "now"
+time_delta = "02:00:00:00"
+
+recipients = ["ea_azzoug@esi.dz"]
+
+[[query]]
+title = "LLM"
+raw_content = """intitle:(GPT* OR ChatGPT OR LLM* OR prompt* OR instruction* OR "Language Models" OR "Large language model" OR "Large language models" OR "generative" OR "All you need" OR instruction*) AND incontent:(result* OR survey OR review OR metric* OR evaluation* OR benchmark* OR SOTA OR PLM* OR prompt* OR gpt* OR experiment* OR optimization* OR distillation*)"""
+
+[[query]]
+title = "Doc Aug"
+raw_content = "intitle:(generation OR augmentation) AND incontent:(document*)"
+
+[[query]]
+title = "AL"
+raw_content = """intitle:("active learning") AND incontent:(VRD OR documents OR extraction OR detection OR survey* OR benchmark*)"""
+
+[[source]]
+type = "arxiv"
+use_abstract_as_content = true
+search_topic = "cs"
+max_documents = 400
+
+[[source]]
+type = "openai_blog"
+max_documents = 20
+
+[[source]]
+type = "techcrunch"
+search_topic = "category/artificial-intelligence/"
+max_documents = 50

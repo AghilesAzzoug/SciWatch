@@ -1,0 +1,33 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-toml
+
+  - repo: local
+    hooks:
+      - id: format
+        name: format
+        entry: make format
+        language: system
+        types: [ python ]
+
+      - id: isort
+        name: sort-imports
+        entry: make sort-imports
+        language: system
+        types: [ python ]
+
+      - id: linter
+        name: linter
+        entry: make linter
+        language: system
+        types: [ python ]
+
+      - id: vulture
+        name: vulture
+        entry: make find-dead-code
+        language: system
+        types: [ python ]

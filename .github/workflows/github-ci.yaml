@@ -1,0 +1,45 @@
+name: unit-tests
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.9", "3.10", "3.11" ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'poetry'
+
+      - name: Install dependencies
+        run: |
+          sudo apt update -y
+          sudo apt upgrade -y
+          make install-dev
+
+      - name: Tests with pytest
+        run: |
+          make reports
+
+      - name: Quality check
+        run: |
+          make linter
+
+      - name: Find Dead code
+        run: |
+          make find-dead-code

@@ -1,0 +1,113 @@
+<p align="center">
+    <img src="docs/_static/logo.png?raw=true" width="400" title="SciWatch">
+</p>
+
+<p align="center">
+  <!-- Unit Tests -->
+  <a href="https://github.com/AghilesAzzoug/SciWatch/actions/workflows/github-ci.yaml">
+    <img src="https://github.com/AghilesAzzoug/SciWatch/actions/workflows/github-ci.yaml/badge.svg" alt="tests">
+  </a>
+  <!-- Documentation -->
+  <a href="https://aghilesazzoug.github.io/SciWatch/">
+    <img src="https://img.shields.io/website?label=docs&style=flat-square&url=https%3A%2F%2Faghilesazzoug.github.io%2FSciWatch%2F" alt="docs">
+  </a>
+  <!-- License -->
+  <a href="https://opensource.org/licenses/MIT">
+        <img src="https://img.shields.io/github/license/SciWatch" alt="mit_license">
+  </a>
+</p>
+
+**SciWatch** is a Python package designed to facilitate scientific monitoring
+for data scientists and AI researchers (mainly). It serves as a useful tool for staying up-to-date
+with the latest developments in the ever-evolving world of science and technology.
+By effortlessly retrieving relevant scientific papers and technical blogs,
+**SciWatch** empowers researchers to keep their knowledge current and expand their
+horizons in their respective fields.
+
+# Usage
+
+1. Setup Gmail credentials
+
+```sh
+export gmail_sender=test@email.com
+export gmail_password=your_password
+```
+
+2. Write a config (`scrapping_config.toml`)
+
+```toml 
+title = "LLM & AL Watch" # Will be used as email title
+
+end_date = "now" # will search content up to now (exec. time)
+time_delta = "02:00:00:00" # will look for content up to two days ago
+
+recipients = ["aghiles.ahmed.azzoug@gmail.com"]
+
+# define your queries
+[[query]]
+title = "LLM" # LLM query
+raw_content = """intitle:(GPT* OR LLM* OR prompt* OR "Large language models"~2) AND incontent:(survey OR review OR evaluation* OR benchmark* OR optimization*)"""
+
+[[query]]
+title = "AL" # Active Learning on VRD (or benchmarks/surveys)
+raw_content = """intitle:("active learning") AND incontent:(VRD OR documents OR survey* OR benchmark*)"""
+
+# define your sources
+[[source]]
+type = "arxiv" # check for Computer Science papers on Arxiv
+use_abstract_as_content = true
+search_topic = "cs"
+max_documents = 200
+
+[[source]]
+type = "openai_blog" # check for latest blogs on OpenAI blog (mainly for GPT updates)
+max_documents = 20
+```
+
+3. Run the watcher
+
+```python
+from sci_watch.sci_watcher import SciWatcher
+
+watcher = SciWatcher.from_toml("scrapping_config.toml")
+
+watcher.exec() # if some relevant content is retrieved, recipients will receive an Email
+```
+
+You might get an email like this:
+<p align="center">
+    <img src="docs/_static/email_sample.png?raw=true" width="800" title="email sample">
+</p>
+
+# Documentation
+
+For full documentation, including grammar syntax, check
+the [docs](https://aghilesazzoug.github.io/SciWatch/).
+
+# Contributing
+
+Contribution are welcome by finding issues or by pull requests. For major changes, please open an issue first to
+discuss/explain what you would like to change.
+
+1. Fork the project
+2. Create your feature branch following the convention feature/feature-name (`git checkout -b feature/feature-name`)
+3. **Run pre-commit** (`make pre-commit`)
+4. Commit your changes (`git commit -m "a meaningful message please"`)
+5. Push to the branch (`git push origin feature/feature-name`)
+6. Open a Pull Request
+
+# Roadmap
+
+- [ ] Add GPT support for papers summarization.
+
+Feel free to post an issue or send an email if you have more ideas :)
+
+# License
+
+Copyright 2023 Aghiles Azzoug
+
+SciWatch is free and open-source software distributed under the terms of the [**MIT**](LICENSE) license.
+
+# Contact
+
+Aghiles Azzoug - [LinkedIn](https://www.linkedin.com/in/aghiles-azzoug/) - aghiles.ahmed.azzoug@gmail.com

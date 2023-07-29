@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "sci_watch"
+version = "0.0.1"
+description = "Scientific Monitoring Tool"
+license = "MIT"
+readme = "README.md"
+authors = ["Aghiles and Lila"]
+maintainers = ["Aghiles Azzoug <aghiles.ahmed.azzoug@gmail.com>"]
+keywords = [
+    "Scientific Monitoring"
+]
+packages = [
+    { include = "src/" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.12"
+pytz = "^2023.3"
+arxiv = "^1.4.7"
+jinja2 = "^3.1.2"
+tenacity = "^8.2.2"
+beautifulsoup4 = "^4.12.2"
+lark = "^1.1.5"
+pydantic = { extras = ["dotenv"], version = "^1.10.9" }
+coloredlogs = "^15.0.1"
+verboselogs = "^1.7"
+requests = "^2.31.0"
+toml = "^0.10.2"
+
+
+[tool.poetry.group.dev.dependencies]
+coverage = "^7.2.7"
+black = "23.7.0"
+pytest = "^7.4.0"
+isort = "^5.12.0"
+vulture = "^2.7"
+pre-commit = "^3.3.3"
+pylint = "^2.17.4"
+pytest-html = "^3.2.0"
+pytest-mock = "^3.11.1"
+sphinx = "4.5.0"
+sphinx-rtd-theme = "^1.2.2"
+igraph = "^0.10.6"
+plotly = "^5.15.0"
+
+
+[tool.vulture]
+min_confidence = 80
+sort_by_size = true
+verbose = false
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
