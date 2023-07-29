@@ -13,7 +13,7 @@
   </a>
   <!-- License -->
   <a href="https://opensource.org/licenses/MIT">
-        <img src="https://img.shields.io/github/license/SciWatch" alt="mit_license">
+        <img src="https://img.shields.io/github/license/AghilesAzzoug/SciWatch" alt="mit_license">
   </a>
 </p>
 
