@@ -26,6 +26,7 @@ coloredlogs = "^15.0.1"
 verboselogs = "^1.7"
 requests = "^2.31.0"
 toml = "^0.10.2"
+langchain = "^0.0.292"
 
 
 [tool.poetry.group.dev.dependencies]
