@@ -16,7 +16,7 @@ def config():
         "title": "Relevent papers",
         "end_date": "now",
         "time_delta": "02:00:00:00",
-        "recipients": ["ea_azzoug@esi.dz"],
+        "Email": {"recipients": ["ea_azzoug@esi.dz"]},
         "query": [
             {
                 "title": "GPT",
@@ -54,15 +54,15 @@ def test_get_time_delta():
     with pytest.raises(ValueError) as value_error:
         SciWatcher._get_time_delta("09:10:30")
     assert (
-        str(value_error.value)
-        == "time data '09:10:30' does not match format '%d:%H:%M:%S'"
+            str(value_error.value)
+            == "time data '09:10:30' does not match format '%d:%H:%M:%S'"
     )
 
     with pytest.raises(ValueError) as value_error:
         SciWatcher._get_time_delta("02-00-00-00")
     assert (
-        str(value_error.value)
-        == "time data '02-00-00-00' does not match format '%d:%H:%M:%S'"
+            str(value_error.value)
+            == "time data '02-00-00-00' does not match format '%d:%H:%M:%S'"
     )
 
 
@@ -72,8 +72,8 @@ def test_end_date():
     with pytest.raises(NotImplementedError) as not_impl_err:
         SciWatcher._get_end_date("09:10:30")
     assert (
-        str(not_impl_err.value)
-        == 'Currently only "now" is supported for "end_date" field'
+            str(not_impl_err.value)
+            == 'Currently only "now" is supported for "end_date" field'
     )
 
 
@@ -142,4 +142,4 @@ def test_exec(config, mocker):
 
     assert mock_watcher_exec.call_count == len(sci_watcher.watchers)
     assert mock_send_email.call_args.kwargs["subject"] == sci_watcher.title
-    assert mock_send_email.call_args.kwargs["recipients"] == sci_watcher.recipients
+    assert mock_send_email.call_args.kwargs["recipients"] == sci_watcher.email_config["recipients"]

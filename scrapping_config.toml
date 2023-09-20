@@ -3,7 +3,17 @@ title = "Relevent papers"
 end_date = "now"
 time_delta = "02:00:00:00"
 
+[Summarize]
+type = "gpt"
+provider = "openai" # or "azure"
+model_name = "gpt-3.5-turbo"
+# API KEY should be in ENV
+
+[Email]
 recipients = ["ea_azzoug@esi.dz"]
+
+[Teams]
+test = "abc"
 
 [[query]]
 title = "LLM"

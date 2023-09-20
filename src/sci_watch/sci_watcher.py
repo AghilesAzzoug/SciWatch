@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -12,6 +13,7 @@ from sci_watch.source_wrappers.abstract_wrapper import SourceWrapper
 from sci_watch.source_wrappers.arxiv_wrapper import ArxivWrapper
 from sci_watch.source_wrappers.openai_wrapper import OpenAIBlogWrapper
 from sci_watch.source_wrappers.techcrunch_wrapper import TechCrunchWrapper
+from sci_watch.summarizers import AbstractSummarizer, get_summarizer
 from sci_watch.utils.logger import get_logger
 from sci_watch.watcher.watcher import Watcher
 
@@ -30,7 +32,27 @@ class SciWatcher:
 
         self.end_date = pytz.UTC.localize(self._get_end_date(config["end_date"]))
         self.start_date = self.end_date - self._get_time_delta(config["time_delta"])
-        self.recipients = config["recipients"]
+
+        self.email_config = config.get("Email", None)
+        if self.email_config:
+            LOGGER.info("Email config: %s", self.email_config)
+
+        self.teams_config = config.get("Teams", None)
+        if self.teams_config:
+            LOGGER.info("Teams config: %s", self.teams_config)
+
+        self.summarization_config = config.get("Summarize", None)
+
+        self.summarizer = None
+        if self.summarization_config:
+            LOGGER.info(
+                "Creating summarizer with config: %s", self.summarization_config
+            )
+            self.summarizer = self._get_summarizer(self.summarization_config)
+
+        assert (
+            self.email_config is not None or self.teams_config is not None
+        ), "Email and/or Teams config should be set."
 
         sources = self._load_sources(config["source"])
         LOGGER.info("Got %i sources", len(sources))
@@ -42,13 +64,13 @@ class SciWatcher:
         LOGGER.info("Got %i watchers", len(self.watchers))
 
     @classmethod
-    def from_toml(cls, path: Path) -> SciWatcher:
+    def from_toml(cls, path: os.PathLike | Path) -> SciWatcher:
         """
         Create a Scrapper from toml file
 
         Parameters
         ----------
-        path: Path
+        path: os.PathLike
             Path to a .toml file
 
         Returns
@@ -58,6 +80,11 @@ class SciWatcher:
         """
         config = toml.load(path)
         return cls(config=config)
+
+    @staticmethod
+    def _get_summarizer(summarizer_config: dict[str, ...]) -> AbstractSummarizer:
+        summarizer_type = summarizer_config["type"]
+        return get_summarizer(type=summarizer_type, summarizer_kwargs=summarizer_config)
 
     @staticmethod
     def _get_time_delta(time_delta: str) -> timedelta:
@@ -188,7 +215,19 @@ class SciWatcher:
             docs.extend(watcher.exec())
 
         if len(docs) > 0:
+            summaries = self.summarizer.batch_summarize(docs=docs)
+            print(summaries)
+            exit(1)
             html = Watcher.as_html(documents=docs)
-            send_email(subject=self.title, html_body=html, recipients=self.recipients)
+
+            if self.email_config:
+                send_email(
+                    subject=self.title,
+                    html_body=html,
+                    recipients=self.email_config["recipients"],
+                )
+
+            if self.teams_config:
+                pass  # TODO: send using teams
         else:
             LOGGER.warning("Got 0 relevant documents using the config %s", self.title)
