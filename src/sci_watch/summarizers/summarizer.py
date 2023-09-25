@@ -10,8 +10,34 @@ class AbstractSummarizer(ABC):
 
     @abstractmethod
     def summarize(self, doc: Document) -> str:
+        """
+        Summarize one document
+
+        Parameters
+        ----------
+        doc: Document
+            Document to summarize
+
+        Returns
+        -------
+        str
+            Summarized document
+        """
         ...
 
     @abstractmethod
     def batch_summarize(self, docs: list[Document]) -> list[str]:
+        """
+        Summarize a list of documents
+
+        Parameters
+        ----------
+        docs: list[Document]
+            List of documents to summarize
+
+        Returns
+        -------
+        list[str]
+            List of summarized documents
+        """
         ...

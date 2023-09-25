@@ -3,17 +3,17 @@ title = "Relevent papers"
 end_date = "now"
 time_delta = "02:00:00:00"
 
-[Summarize]
+[summarize]
 type = "gpt"
 provider = "openai" # or "azure"
 model_name = "gpt-3.5-turbo"
 # API KEY should be in ENV
 
-[Email]
+[email]
 recipients = ["ea_azzoug@esi.dz"]
 
-[Teams]
-test = "abc"
+[teams]
+webhook_url = "https://test_webhook.com/test=123xyz"
 
 [[query]]
 title = "LLM"

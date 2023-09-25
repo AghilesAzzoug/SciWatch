@@ -56,11 +56,6 @@ class GPTSummarizer(AbstractSummarizer):
         str
             Summarized document
         """
-        # if num_tokens < model_max_tokens:
-        #     chain = load_summarize_chain(llm, chain_type="stuff", prompt=prompt, verbose=verbose)
-        # else:
-        #     chain = load_summarize_chain(llm, chain_type="map_reduce", map_prompt=prompt, combine_prompt=prompt,
-        #                                  verbose=verbose)
         langchain_doc = LangChainDoc(page_content=doc.content)
         try:
             summary = self._stuff_chain.run([langchain_doc])
@@ -82,35 +77,8 @@ class GPTSummarizer(AbstractSummarizer):
         list[str]
             List of summarized documents
         """
-        # langchain_docs = [LangChainDoc(page_content=doc.content) for doc in docs]
+
         summaries = []
         for doc in docs:
-            summaries.append(
-                self.summarize(doc)
-            )  # self._stuff_chain.run(langchain_docs)
+            summaries.append(self.summarize(doc))
         return summaries
-
-
-if __name__ == "__main__":
-    import os
-
-    os.environ["OPENAI_API_KEY"] = ""
-    summarizer = GPTSummarizer(provider="openai", temperature=0, model_name="gpt-4")
-    print(
-        summarizer.summarize(
-            Document(
-                title="Reasoning in LLMs",
-                url="",
-                date="",
-                content="Reasoning is a fundamental aspect of human intelligence that plays a crucial role in activities \
-                such as problem solving, decision making, and critical thinking. In recent years, large language models \
-                (LLMs) have made significant progress in natural language processing, and there is observation that these \
-                models may exhibit reasoning abilities when they are sufficiently large. However, it is not yet clear to \
-                what extent LLMs are capable of reasoning. This paper provides a comprehensive overview of the current \
-                state of knowledge on reasoning in LLMs, including techniques for improving and eliciting reasoning in \
-                these models, methods and benchmarks for evaluating reasoning abilities, findings and implications of \
-                previous research in this field, and suggestions on future directions. Our aim is to provide a detailed \
-                and up-to-date review of this topic and stimulate meaningful discussion and future work. ",
-            )
-        )
-    )

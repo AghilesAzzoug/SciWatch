@@ -7,7 +7,6 @@
     <title>Article List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style>
-        /* Reset some default styles */
         body {
             margin: 0;
             padding: 0;
@@ -17,13 +16,12 @@
             background-color: #f1f1f1;
         }
 
-        /* Styles for document separator */
+
         .separator {
             border-bottom: 1px solid #CCCCCC;
             margin: 20px 0;
         }
 
-        /* Custom beautiful styles */
         .card {
             background-color: #ffffff;
             border-radius: 8px;
@@ -45,7 +43,6 @@
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 2;
-            /* Number of lines to show */
             -webkit-box-orient: vertical;
         }
 
@@ -58,7 +55,6 @@
             border-color: #c8c8c8;
         }
 
-        /* Media queries for responsiveness */
         @media (max-width: 576px) {
             .card-title {
                 font-size: 20px;
@@ -70,36 +66,84 @@
                 margin-bottom: 16px;
             }
         }
+
+        .read-more-button {
+            background: none;
+            border: none;
+            color: #0078d4;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .read-more-icon {
+            display: inline-block;
+            margin-right: 5px;
+            transition: transform 0.2s;
+        }
+
+        .read-more-toggle:checked + .card .read-more-icon {
+            transform: rotate(180deg);
+        }
+
+        .card .card-content {
+            display: none;
+        }
+
+        .read-more-toggle:checked + .card .card-content {
+            display: block;
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.read-more-button').click(function () {
+                var card = $(this).closest('.card');
+                var icon = card.find('.read-more-icon');
+                var isChecked = card.find('.read-more-toggle').is(':checked');
+                card.find('.read-more-toggle').prop('checked', !isChecked);
+                if (!isChecked) {
+                    icon.css('transform', 'rotate(180deg)');
+                    card.find('.card-content').show();
+                } else {
+                    icon.css('transform', 'rotate(0deg)');
+                    card.find('.card-content').hide();
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                {% for document in documents %}
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h2 class="card-title">[{{ document.from_query }}] {{ document.title }}</h2>
-                        <p class="card-text">
-                            <a href="{{ document.url }}" class="card-link">{{ document.url }}</a>
-                        </p>
-                        <p class="card-text">
-                            {% if document.content|length > 100 %}
-                            {{ document.content[:200] }}...
-                            {% else %}
-                            {{ document.content }}
-                            {% endif %}
-                        </p>
-                    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            {% for document in documents %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">[{{ document.from_query }}] {{ document.title }}</h2>
+                    <p class="card-summary">{{ summaries[loop.index0] }}</p>
+                    <p class="card-text">
+                        <a href="{{ document.url }}" class="card-link">{{ document.url }}</a>
+                    </p>
+                    <label class="read-more-button">
+                        <span class="read-more-icon">&#x25BC;</span>
+                        <span class="read-more-text">Read More</span>
+                        <input type="checkbox" class="read-more-toggle" style="display: none;">
+                    </label>
+
+                    <p class="card-content">{{ document.content }}</p>
                 </div>
-                {% if not loop.last %}
-                <div class="separator"></div>
-                {% endif %}
-                {% endfor %}
             </div>
+            {% if not loop.last %}
+            <div class="separator"></div>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
+</div>
 </body>
 
 </html>

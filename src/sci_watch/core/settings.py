@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     gmail_sender: str = Field(env="gmail_sender")
     gmail_password: str = Field(env="gmail_password")
     grammar_path: str = Field(env="grammar_path")
+    http_proxy: str = Field(env="http_proxy", default=None)
+    https_proxy: str = Field(env="https_proxy", default=None)
 
     class Config:
         allow_mutation = False

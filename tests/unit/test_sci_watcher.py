@@ -16,7 +16,7 @@ def config():
         "title": "Relevent papers",
         "end_date": "now",
         "time_delta": "02:00:00:00",
-        "Email": {"recipients": ["ea_azzoug@esi.dz"]},
+        "email": {"recipients": ["ea_azzoug@esi.dz"]},
         "query": [
             {
                 "title": "GPT",

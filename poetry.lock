@@ -1516,6 +1516,22 @@ spelling = ["pyenchant (>=3.2,<4.0)"]
 testutils = ["gitpython (>3)"]
 
 [[package]]
+name = "pymsteams"
+version = "0.2.2"
+description = "Format messages and post to Microsoft Teams."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "pymsteams-0.2.2.tar.gz", hash = "sha256:5696dc987b47b498825b8f095863edbdcff126db774b83aa246559c5f1f08ec6"},
+]
+
+[package.dependencies]
+requests = ">=2.20.0"
+
+[package.extras]
+async = ["httpx (>=0.18.2)"]
+
+[[package]]
 name = "pyreadline3"
 version = "3.4.1"
 description = "A python implementation of GNU readline."
@@ -2331,4 +2347,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "0f656eaeb51263875dfcf576459ca353f7eabe3df91fa0d3df4f121f8d93e699"
+content-hash = "541ab53e717ae3c644fe1fd2bd16ca9db769b22b7379dea54f959874e48a3af5"

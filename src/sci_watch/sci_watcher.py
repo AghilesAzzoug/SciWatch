@@ -7,8 +7,9 @@ from pathlib import Path
 import pytz
 import toml
 
-from sci_watch.mailer.gmail_sender import send_email
 from sci_watch.parser.query import Query
+from sci_watch.senders.gmail_sender import send_email
+from sci_watch.senders.teams_sender import send_teams
 from sci_watch.source_wrappers.abstract_wrapper import SourceWrapper
 from sci_watch.source_wrappers.arxiv_wrapper import ArxivWrapper
 from sci_watch.source_wrappers.openai_wrapper import OpenAIBlogWrapper
@@ -33,15 +34,15 @@ class SciWatcher:
         self.end_date = pytz.UTC.localize(self._get_end_date(config["end_date"]))
         self.start_date = self.end_date - self._get_time_delta(config["time_delta"])
 
-        self.email_config = config.get("Email", None)
+        self.email_config = config.get("email", None)
         if self.email_config:
-            LOGGER.info("Email config: %s", self.email_config)
+            LOGGER.info("email config: %s", self.email_config)
 
-        self.teams_config = config.get("Teams", None)
+        self.teams_config = config.get("teams", None)
         if self.teams_config:
-            LOGGER.info("Teams config: %s", self.teams_config)
+            LOGGER.info("teams config: %s", self.teams_config)
 
-        self.summarization_config = config.get("Summarize", None)
+        self.summarization_config = config.get("summarize", None)
 
         self.summarizer = None
         if self.summarization_config:
@@ -208,26 +209,31 @@ class SciWatcher:
 
     def exec(self) -> None:
         """
-        Run the queries on all the sources, sends an email if relevant documents are found
+        Run the queries on all the sources, sends an email and/or teams message if relevant documents are found
         """
         docs = []
         for watcher in self.watchers:
             docs.extend(watcher.exec())
 
         if len(docs) > 0:
-            summaries = self.summarizer.batch_summarize(docs=docs)
-            print(summaries)
-            exit(1)
-            html = Watcher.as_html(documents=docs)
-
+            summaries = (
+                self.summarizer.batch_summarize(docs=docs) if self.summarizer else None
+            )
             if self.email_config:
+                LOGGER.info("Sending email")
                 send_email(
                     subject=self.title,
-                    html_body=html,
                     recipients=self.email_config["recipients"],
+                    docs=docs,
+                    summaries=summaries,
                 )
 
             if self.teams_config:
-                pass  # TODO: send using teams
+                LOGGER.info("Sending teams message")
+                send_teams(
+                    webhook_url=self.teams_config["webhook_url"],
+                    docs=docs,
+                    summaries=summaries,
+                )
         else:
             LOGGER.warning("Got 0 relevant documents using the config %s", self.title)
