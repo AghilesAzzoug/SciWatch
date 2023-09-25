@@ -1,0 +1,7 @@
+sci\_watch.source\_wrappers.openai\_wrapper module
+==================================================
+
+.. automodule:: sci_watch.source_wrappers.openai_wrapper
+   :members:
+   :undoc-members:
+   :show-inheritance:

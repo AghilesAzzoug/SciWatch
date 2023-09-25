@@ -1,0 +1,15 @@
+sci\_watch.mailer package
+=========================
+
+.. automodule:: sci_watch.mailer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   sci_watch.mailer.gmail_sender
