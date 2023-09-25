@@ -70,7 +70,7 @@ def send_email(
     subject: str,
     recipients: list[str],
     docs: list[Document],
-    summaries: list[str] | None,
+    summaries: list[str] = None,
 ) -> None:
     """
     Converts a list of document into HTML and sends them thought SMTP

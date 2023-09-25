@@ -7,7 +7,7 @@ from sci_watch.source_wrappers.document import Document
 
 
 def send_teams(
-    webhook_url: str, docs: list[Document], summaries: list[str] | None = None
+    webhook_url: str, docs: list[Document], summaries: list[str] = None
 ) -> None:
     """
     Send a teams message given as webhook, documents and summaries
