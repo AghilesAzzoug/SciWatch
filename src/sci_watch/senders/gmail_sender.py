@@ -61,7 +61,7 @@ def _send_email(
     msg["From"] = settings.gmail_sender
     msg["To"] = ", ".join(recipients)
     with smtplib.SMTP_SSL(_SMTP_HOST, _SMTP_PORT) as smtp_server:
-        smtp_server.login(settings.gmail_sender, password=settings.gmail_password)
+        smtp_server.login(settings.gmail_sender, password=settings.gmail_token)
         smtp_server.sendmail(settings.gmail_sender, recipients, msg.as_string())
     LOGGER.info("Email sent!")
 

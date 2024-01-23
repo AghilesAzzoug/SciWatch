@@ -17,7 +17,7 @@ Then, setup Gmail credentials (email and secure token).
 .. code-block:: sh
 
     export gmail_sender=test@email.com
-    export gmail_password=your_password
+    export gmail_token=your_token
 
 
 Create a configuration file

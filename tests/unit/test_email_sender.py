@@ -5,7 +5,7 @@ from sci_watch.senders.gmail_sender import (_SMTP_HOST, _SMTP_PORT,
 from sci_watch.source_wrappers.document import Document
 
 
-def test_send_email_through_smt(mocker):
+def test_send_email_through_smtp(mocker):
     # Create mock SMTP server
     mock_smtp = mocker.patch("smtplib.SMTP_SSL")
     smtp_instance = mock_smtp.return_value.__enter__.return_value
@@ -21,7 +21,7 @@ def test_send_email_through_smt(mocker):
 
     # Assert that the SMTP server was called with the correct parameters
     mock_smtp.assert_called_once_with(_SMTP_HOST, _SMTP_PORT)
-    smtp_instance.login.assert_called_once_with("test@email.com", password="mypassword")
+    smtp_instance.login.assert_called_once_with("test@email.com", password="mytoken")
     smtp_instance.sendmail.assert_called_once_with(
         "test@email.com", recipients, mocker.ANY
     )
