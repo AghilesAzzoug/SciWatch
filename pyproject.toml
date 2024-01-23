@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sci_watch"
-version = "0.0.1"
+version = "1.0.0"
 description = "Scientific Monitoring Tool"
 license = "MIT"
 readme = "README.md"
