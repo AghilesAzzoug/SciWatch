@@ -1,5 +1,5 @@
+import itertools
 import re
-import types
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
@@ -120,8 +120,8 @@ def test_arxiv_package_search_function():
         sort_order=arxiv.SortOrder.Ascending,
     )
 
-    # check if search_results contains results as an iterator
-    assert isinstance(search_results.results(), types.GeneratorType)
+    # check if search_results contains results as an iterator slice
+    assert isinstance(search_results.results(), itertools.islice)
 
     results = list(search_results.results())
     # check if only this two papers were returned

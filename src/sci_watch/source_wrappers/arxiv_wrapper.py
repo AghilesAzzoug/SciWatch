@@ -98,7 +98,6 @@ class ArxivWrapper(SourceWrapper):
             search = arxiv.Search(
                 id_list=paper_ids[idx : _ARXIV_QUERY_MAX_NUMBER_OF_DOCUMENTS + idx]
             )
-
             tmp_results = list(search.results())
             query_results.extend(tmp_results)
 
