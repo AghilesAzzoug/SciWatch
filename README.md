@@ -30,7 +30,7 @@ horizons in their respective fields.
 
 ```sh
 export gmail_sender=test@email.com
-export gmail_password=your_password
+export gmail_token=your_token
 ```
 
 2. Write a config (`scrapping_config.toml`)
