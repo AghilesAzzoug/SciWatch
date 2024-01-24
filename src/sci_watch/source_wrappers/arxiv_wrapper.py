@@ -84,7 +84,7 @@ class ArxivWrapper(SourceWrapper):
         end `self.end_date`)
         """
         LOGGER.info(
-            f"Checking Arxiv papers from %s to %s",
+            "Checking Arxiv papers from %s to %s",
             datetime.strftime(self.start_date, "%d %B %Y"),
             datetime.strftime(self.end_date, "%d %B %Y"),
         )
@@ -101,7 +101,7 @@ class ArxivWrapper(SourceWrapper):
             tmp_results = list(search.results())
             query_results.extend(tmp_results)
 
-        LOGGER.info(f"Documents retrieved: %d", len(query_results))
+        LOGGER.info("Documents retrieved: %d", len(query_results))
 
         self.documents = []
         for query_result in query_results:

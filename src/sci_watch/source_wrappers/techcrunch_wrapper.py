@@ -59,7 +59,7 @@ class TechCrunchWrapper(SourceWrapper):
         `self.start_date` and end `self.end_date`)
         """
         LOGGER.info(
-            f"Checking TechCrunch blogs from %s to %s",
+            "Checking TechCrunch blogs from %s to %s",
             datetime.strftime(self.start_date, "%d %B %Y"),
             datetime.strftime(self.end_date, "%d %B %Y"),
         )
