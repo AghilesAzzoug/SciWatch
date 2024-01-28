@@ -83,10 +83,10 @@ class TechCrunchWrapper(SourceWrapper):
 
                 self.documents.append(
                     Document(
-                        title=blog_title,
+                        title=blog_title.strip(),
                         url=blog_url,
                         date=blog_datetime,
-                        content=blog_long_content,
+                        content=blog_long_content.strip(),
                     )
                 )
         self.documents = sorted(self.documents, key=lambda doc: doc.date, reverse=True)[

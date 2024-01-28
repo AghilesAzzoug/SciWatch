@@ -114,10 +114,10 @@ class ArxivWrapper(SourceWrapper):
 
                 self.documents.append(
                     Document(
-                        title=query_result.title,
+                        title=query_result.title.strip(),
                         url=query_result.pdf_url,
                         date=query_result.published,
-                        content=content,
+                        content=content.strip(),
                     )
                 )
         if len(self.documents) == 0:
