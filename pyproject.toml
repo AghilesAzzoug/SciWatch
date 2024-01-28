@@ -29,6 +29,7 @@ toml = "^0.10.2"
 langchain = "^0.0.292"
 openai = "^0.28.0"
 pymsteams = "^0.2.2"
+slack-sdk = "^3.26.2"
 
 
 [tool.poetry.group.dev.dependencies]
