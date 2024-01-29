@@ -7,7 +7,12 @@ class Document:
     """
 
     def __init__(
-        self, title: str, url: str, date: datetime, content: str, from_query: str = ""
+        self,
+        title: str,
+        url: str,
+        date: datetime | str,
+        content: str,
+        from_query: str = "",
     ) -> None:
         """
         Parameters
@@ -16,7 +21,7 @@ class Document:
             Document title
         url: str
             Url to access the full document
-        date: datetime
+        date: datetime | str
             Publication date
         content: str
             Document content
