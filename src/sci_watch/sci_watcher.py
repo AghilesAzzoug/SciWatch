@@ -9,6 +9,7 @@ import toml
 
 from sci_watch.parser.query import Query
 from sci_watch.senders.gmail_sender import send_email
+from sci_watch.senders.slack_sender import send_slack
 from sci_watch.senders.teams_sender import send_teams
 from sci_watch.source_wrappers.abstract_wrapper import SourceWrapper
 from sci_watch.source_wrappers.arxiv_wrapper import ArxivWrapper
@@ -34,16 +35,20 @@ class SciWatcher:
         self.end_date = pytz.UTC.localize(self._get_end_date(config["end_date"]))
         self.start_date = self.end_date - self._get_time_delta(config["time_delta"])
 
+        # TODO: refactor fast. FAST!
         self.email_config = config.get("email", None)
         if self.email_config:
-            LOGGER.info("email config: %s", self.email_config)
+            LOGGER.info("Email config: %s", self.email_config)
 
         self.teams_config = config.get("teams", None)
         if self.teams_config:
-            LOGGER.info("teams config: %s", self.teams_config)
+            LOGGER.info("Teams config: %s", self.teams_config)
+
+        self.slack_config = config.get("slack", None)
+        if self.slack_config:
+            LOGGER.info("Slack config: %s", self.slack_config)
 
         self.summarization_config = config.get("summarize", None)
-
         self.summarizer = None
         if self.summarization_config:
             LOGGER.info(
@@ -216,9 +221,18 @@ class SciWatcher:
             docs.extend(watcher.exec())
 
         if len(docs) > 0:
+            LOGGER.info("Got %i documents in total", len(docs))
             summaries = (
                 self.summarizer.batch_summarize(docs=docs) if self.summarizer else None
             )
+            if self.slack_config:
+                LOGGER.info("Sending slack message")
+                send_slack(
+                    channel_id=self.slack_config["channel_id"],
+                    documents=docs,
+                    summaries=summaries,
+                )
+
             if self.email_config:
                 LOGGER.info("Sending email")
                 send_email(
@@ -235,5 +249,6 @@ class SciWatcher:
                     docs=docs,
                     summaries=summaries,
                 )
+
         else:
             LOGGER.warning("Got 0 relevant documents using the config %s", self.title)
