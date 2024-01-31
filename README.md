@@ -33,6 +33,8 @@ export gmail_sender=test@email.com
 export gmail_token=your_token
 ```
 
+### TODO: add examples with other senders 
+
 2. Write a config (`scrapping_config.toml`)
 
 ```toml 
