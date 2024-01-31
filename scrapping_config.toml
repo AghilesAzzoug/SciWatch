@@ -1,7 +1,7 @@
 title = "Relevent papers"
 
 end_date = "now"
-time_delta = "02:00:00:00"
+time_delta = "01:00:00:00"
 
 [summarize]
 type = "gpt"
@@ -14,6 +14,12 @@ recipients = ["ea_azzoug@esi.dz"]
 
 [teams]
 webhook_url = "https://test_webhook.com/test=123xyz"
+
+[local_dir]
+path = "./tmp"
+
+[slack]
+channel_id = "my-channel"
 
 [[query]]
 title = "LLM"
