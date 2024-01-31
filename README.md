@@ -98,13 +98,17 @@ discuss/explain what you would like to change.
 
 # Roadmap
 
-- [ ] Add GPT support for papers summarization.
+- [x] (feat) Add GPT support for papers summarization
+- [ ] (feat) Add better error handling (while scrapping, calling OpenAI API, etc.)
+- [ ] (refactor) Refactor configuration file parsing (and a lot of other things)
+- [ ] (perf) Add [short-circuit evaluation](https://en.wikipedia.org/wiki/Short-circuit_evaluation) for queries
+- [ ] (perf) Run sources only once for all queries
 
-Feel free to post an issue or send an email if you have more ideas :)
+Feel free to post an issue or send an email if you have any idea :)
 
 # License
 
-Copyright 2023 Aghiles Azzoug
+Copyright 2024 Aghiles Azzoug
 
 SciWatch is free and open-source software distributed under the terms of the [**MIT**](LICENSE) license.
 
