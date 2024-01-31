@@ -141,5 +141,5 @@ def test_exec(config, mocker):
     sci_watcher.exec()
 
     assert mock_watcher_exec.call_count == len(sci_watcher.watchers)
-    assert mock_send_email.call_args.kwargs["subject"] == sci_watcher.title
+    assert mock_send_email.call_args.kwargs["subject"] == f'{sci_watcher.title} - {datetime.now().strftime("%Y-%m-%d")}'
     assert mock_send_email.call_args.kwargs["recipients"] == sci_watcher.email_config["recipients"]
