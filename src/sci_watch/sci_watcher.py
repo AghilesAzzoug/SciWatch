@@ -9,6 +9,7 @@ import toml
 
 from sci_watch.parser.query import Query
 from sci_watch.senders.gmail_sender import send_email
+from sci_watch.senders.local_dir_sender import write_on_file
 from sci_watch.senders.slack_sender import send_slack
 from sci_watch.senders.teams_sender import send_teams
 from sci_watch.source_wrappers.abstract_wrapper import SourceWrapper
@@ -47,6 +48,10 @@ class SciWatcher:
         self.slack_config = config.get("slack", None)
         if self.slack_config:
             LOGGER.info("Slack config: %s", self.slack_config)
+
+        self.local_dir_config = config.get("local_dir", None)
+        if self.local_dir_config:
+            LOGGER.info("Local dir config: %s", self.local_dir_config)
 
         self.summarization_config = config.get("summarize", None)
         self.summarizer = None
@@ -225,6 +230,15 @@ class SciWatcher:
             summaries = (
                 self.summarizer.batch_summarize(docs=docs) if self.summarizer else None
             )
+
+            if self.local_dir_config:
+                LOGGER.info("Writing locally at %s", self.local_dir_config["path"])
+                write_on_file(
+                    docs=docs,
+                    summaries=summaries,
+                    output_dir=Path(self.local_dir_config["path"]),
+                )
+
             if self.slack_config:
                 LOGGER.info("Sending slack message")
                 send_slack(
@@ -236,7 +250,7 @@ class SciWatcher:
             if self.email_config:
                 LOGGER.info("Sending email")
                 send_email(
-                    subject=self.title,
+                    subject=f'{self.title} - {datetime.now().strftime("%Y-%m-%d")}',
                     recipients=self.email_config["recipients"],
                     docs=docs,
                     summaries=summaries,
