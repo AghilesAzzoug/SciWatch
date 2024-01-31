@@ -34,7 +34,7 @@ def _convert_docs_to_html(
     jinja_env = Environment(
         loader=FileSystemLoader(Path(Path(__file__).parent, "../assets"))
     )
-    template = jinja_env.get_template("articles_template_page.html")
+    template = jinja_env.get_template("articles_email_template_page.html")
     html_page = template.render(documents=documents, summaries=summaries)
     return html_page
 
