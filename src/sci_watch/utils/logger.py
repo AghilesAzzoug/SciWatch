@@ -34,16 +34,19 @@ def get_logger(
     logger = logging.getLogger(logger_name)
 
     field_styles = {
-        "hostname": {"color": "magenta"},
+        "asctime": {"color": "magenta"},
+        "msecs": {"color": "magenta"},
+        "hostname": {"color": "blue"},
         "programname": {"color": "cyan"},
-        "name": {"color": "blue"},
+        "name": {"color": "green"},
+        "process": {"color": "green", "bold": True},
         "levelname": {"color": "black", "bold": True, "bright": True},
-        "asctime": {"color": "green"},
+        "message": {"color": "white", "bright": True},
     }
     coloredlogs.install(
         level=level,
         logger=logger,
-        fmt="%(asctime)s,%(msecs)03d %(hostname)s %(name)s[%(process)d] %(levelname)s %(message)s",
+        fmt="%(asctime)s.%(msecs)04d %(hostname)s %(name)s [%(process)d] %(levelname)s %(message)s",
         field_styles=field_styles,
     )
 
