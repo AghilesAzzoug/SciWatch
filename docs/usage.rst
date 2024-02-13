@@ -7,17 +7,10 @@ Usage
 Below, a simple example of how to run **SciWatch** for monitoring LLM, document augmentation, and Active Learning papers,
 and blogs.
 
-Setup Gmail credentials
------------------------
+Setup senders
+-------------
 
-First, allow less secure apps, from here_.
-
-Then, setup Gmail credentials (email and secure token).
-
-.. code-block:: sh
-
-    export gmail_sender=test@email.com
-    export gmail_token=your_token
+See :ref:`senders`.
 
 
 Create a configuration file
