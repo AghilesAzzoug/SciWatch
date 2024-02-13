@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath("../src"))
 
 project = "sci_watch"
 
-copyright = "2023, Aghiles Azzoug"
+copyright = "2024, Aghiles Azzoug"
 author = "Aghiles Azzoug"
 version = subprocess.run(["poetry", "version", "-s"], capture_output=True, text=True).stdout.rstrip()
 
