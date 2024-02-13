@@ -26,14 +26,16 @@ horizons in their respective fields.
 
 # Usage
 
-1. Setup Gmail credentials
+1. Setup senders
+
+See [senders](https://aghilesazzoug.github.io/SciWatch/senders.html) documentation for details
+
+Example for with Gmail, setup the following env variables:
 
 ```sh
 export gmail_sender=test@email.com
 export gmail_token=your_token
 ```
-
-### TODO: add examples with other senders 
 
 2. Write a config (`scrapping_config.toml`)
 
@@ -73,7 +75,7 @@ from sci_watch.sci_watcher import SciWatcher
 
 watcher = SciWatcher.from_toml("scrapping_config.toml")
 
-watcher.exec() # if some relevant content is retrieved, recipients will receive an Email
+watcher.exec()  # if some relevant content is retrieved, recipients will receive an Email
 ```
 
 You might get an email like this:
