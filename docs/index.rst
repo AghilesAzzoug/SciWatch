@@ -27,8 +27,6 @@ Currently, you can monitor publications from:
 - `OpenAI Blog`_
 - `TechCrunch Blog`_
 
-See :ref:`sources` for more details.
-
 .. toctree::
    :maxdepth: 2
    :caption: Content
@@ -36,7 +34,7 @@ See :ref:`sources` for more details.
    installation
    usage
    query
-   sources
+   senders
    debugging_queries
    grammar
 

@@ -38,37 +38,3 @@ def test_watcher_exec():
 
     # check that only the relevant document was returned
     assert len(docs) == 1 and docs[0] == relevant_document
-
-
-def test_watcher_as_html():
-    first_document = Document(
-        title="hello",
-        content="world",
-        date=datetime.datetime.now(),
-        url="first_url@arxiv.com",
-    )
-    second_document = Document(
-        title="aghiles",
-        content="azzoug",
-        date=datetime.datetime.now(),
-        url="second_url@unit_test.fr",
-    )
-
-    html_page = Watcher.as_html(documents=[first_document, second_document])
-
-    # check if the output is an html page
-    assert "<!DOCTYPE html>" in html_page
-
-    # check if the first document is present in the html
-    assert (
-        "hello" in html_page
-        and "world" in html_page
-        and "first_url@arxiv.com" in html_page
-    )
-
-    # check if the second document is present in the html
-    assert (
-        "aghiles" in html_page
-        and "azzoug" in html_page
-        and "second_url@unit_test.fr" in html_page
-    )

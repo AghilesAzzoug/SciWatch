@@ -46,6 +46,10 @@
             -webkit-box-orient: vertical;
         }
 
+        .card-summary {
+            font-style: italic;
+        }
+
         .card-link {
             color: #0078d4;
             text-decoration: none;
@@ -67,53 +71,8 @@
             }
         }
 
-        .read-more-button {
-            background: none;
-            border: none;
-            color: #0078d4;
-            cursor: pointer;
-            padding: 0;
-            margin-top: 10px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .read-more-icon {
-            display: inline-block;
-            margin-right: 5px;
-            transition: transform 0.2s;
-        }
-
-        .read-more-toggle:checked + .card .read-more-icon {
-            transform: rotate(180deg);
-        }
-
-        .card .card-content {
-            display: none;
-        }
-
-        .read-more-toggle:checked + .card .card-content {
-            display: block;
-        }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.read-more-button').click(function () {
-                var card = $(this).closest('.card');
-                var icon = card.find('.read-more-icon');
-                var isChecked = card.find('.read-more-toggle').is(':checked');
-                card.find('.read-more-toggle').prop('checked', !isChecked);
-                if (!isChecked) {
-                    icon.css('transform', 'rotate(180deg)');
-                    card.find('.card-content').show();
-                } else {
-                    icon.css('transform', 'rotate(0deg)');
-                    card.find('.card-content').hide();
-                }
-            });
-        });
-    </script>
+
 </head>
 
 <body>
@@ -124,17 +83,20 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title">[{{ document.from_query }}] {{ document.title }}</h2>
-                    <p class="card-summary">{{ summaries[loop.index0] }}</p>
+                    {% if summaries is not none %}
+                    <p class="card-summary">Summary: {{ summaries[loop.index0] }}</p>
+                    {% endif %}
                     <p class="card-text">
                         <a href="{{ document.url }}" class="card-link">{{ document.url }}</a>
                     </p>
-                    <label class="read-more-button">
-                        <span class="read-more-icon">&#x25BC;</span>
-                        <span class="read-more-text">Read More</span>
-                        <input type="checkbox" class="read-more-toggle" style="display: none;">
-                    </label>
 
-                    <p class="card-content">{{ document.content }}</p>
+                    <p class="card-content">
+                        {% if document.content|length > 300 %}
+                        {{ document.content[:300] }}...
+                        {% else %}
+                        {{ document.content }}
+                        {% endif %}
+                    </p>
                 </div>
             </div>
             {% if not loop.last %}

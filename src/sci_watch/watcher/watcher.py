@@ -1,6 +1,3 @@
-from pathlib import Path
-
-from jinja2 import Environment, FileSystemLoader
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from sci_watch.parser.query import Query
@@ -91,25 +88,3 @@ class Watcher:
         else:
             LOGGER.info("Retrieved %i relevant articles/blogs", len(relevant_documents))
         return relevant_documents
-
-    @staticmethod
-    def as_html(documents: list[Document]) -> str:
-        """
-        Converts a list of documents into a ready-to-send HTML page
-
-        Parameters
-        ----------
-        documents: list[Document]
-            List of documents to put on the HTML content
-
-        Returns
-        -------
-        str:
-            An HTML page containing the retrieved documents
-        """
-        jinja_env = Environment(
-            loader=FileSystemLoader(Path(Path(__file__).parent, "../assets"))
-        )
-        template = jinja_env.get_template("articles_template_page.html")
-        html_page = template.render(documents=documents)
-        return html_page

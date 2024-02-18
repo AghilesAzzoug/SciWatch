@@ -96,10 +96,10 @@ class OpenAIBlogWrapper(SourceWrapper):
                 blog_content = self._get_blog_content(blog_url=blog_url)
                 self.documents.append(
                     Document(
-                        title=blog_title,
+                        title=blog_title.strip(),
                         url=blog_url,
                         date=blog_date,
-                        content=blog_content,
+                        content=blog_content.strip(),
                     )
                 )
 

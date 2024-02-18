@@ -26,11 +26,15 @@ horizons in their respective fields.
 
 # Usage
 
-1. Setup Gmail credentials
+1. Setup senders
+
+See [senders](https://aghilesazzoug.github.io/SciWatch/senders.html) documentation for details
+
+Example for with Gmail, setup the following env variables:
 
 ```sh
 export gmail_sender=test@email.com
-export gmail_password=your_password
+export gmail_token=your_token
 ```
 
 2. Write a config (`scrapping_config.toml`)
@@ -71,7 +75,7 @@ from sci_watch.sci_watcher import SciWatcher
 
 watcher = SciWatcher.from_toml("scrapping_config.toml")
 
-watcher.exec() # if some relevant content is retrieved, recipients will receive an Email
+watcher.exec()  # if some relevant content is retrieved, recipients will receive an Email
 ```
 
 You might get an email like this:
@@ -98,13 +102,17 @@ discuss/explain what you would like to change.
 
 # Roadmap
 
-- [ ] Add GPT support for papers summarization.
+- [x] (feat) Add GPT support for papers summarization
+- [ ] (feat) Add better error handling (while scrapping, calling OpenAI API, etc.)
+- [ ] (refactor) Refactor configuration file parsing (and a lot of other things)
+- [ ] (perf) Add [short-circuit evaluation](https://en.wikipedia.org/wiki/Short-circuit_evaluation) for queries
+- [ ] (perf) Run sources only once for all queries
 
-Feel free to post an issue or send an email if you have more ideas :)
+Feel free to post an issue or send an email if you have any idea :)
 
 # License
 
-Copyright 2023 Aghiles Azzoug
+Copyright 2024 Aghiles Azzoug
 
 SciWatch is free and open-source software distributed under the terms of the [**MIT**](LICENSE) license.
 

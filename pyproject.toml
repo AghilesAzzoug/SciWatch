@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sci_watch"
-version = "0.0.1"
+version = "1.0.0"
 description = "Scientific Monitoring Tool"
 license = "MIT"
 readme = "README.md"
@@ -16,7 +16,7 @@ packages = [
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
 pytz = "^2023.3"
-arxiv = "^1.4.7"
+arxiv = "^2.1.0"
 jinja2 = "^3.1.2"
 tenacity = "^8.2.2"
 beautifulsoup4 = "^4.12.2"
@@ -26,6 +26,10 @@ coloredlogs = "^15.0.1"
 verboselogs = "^1.7"
 requests = "^2.31.0"
 toml = "^0.10.2"
+langchain = "^0.0.292"
+openai = "^0.28.0"
+pymsteams = "^0.2.2"
+slack-sdk = "^3.26.2"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -38,7 +42,7 @@ pre-commit = "^3.3.3"
 pylint = "^2.17.4"
 pytest-html = "^3.2.0"
 pytest-mock = "^3.11.1"
-sphinx = "4.5.0"
+sphinx = "5.0.2"
 sphinx-rtd-theme = "^1.2.2"
 igraph = "^0.10.6"
 plotly = "^5.15.0"
