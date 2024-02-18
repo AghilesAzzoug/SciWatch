@@ -1,0 +1,7 @@
+sci\_watch.source\_wrappers.techcrunch\_wrapper module
+======================================================
+
+.. automodule:: sci_watch.source_wrappers.techcrunch_wrapper
+   :members:
+   :undoc-members:
+   :show-inheritance:

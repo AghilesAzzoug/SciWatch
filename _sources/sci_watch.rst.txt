@@ -1,0 +1,29 @@
+sci\_watch package
+==================
+
+.. automodule:: sci_watch
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   sci_watch.core
+   sci_watch.parser
+   sci_watch.senders
+   sci_watch.source_wrappers
+   sci_watch.summarizers
+   sci_watch.utils
+   sci_watch.watcher
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   sci_watch.sci_watcher
