@@ -12,7 +12,10 @@ from sci_watch.utils.logger import get_logger
 LOGGER = get_logger(__name__)
 
 _OPENAI_BASE_URL = "https://openai.com"
-_OPENAI_BLOG_URL = "https://openai.com/blog"
+_OPENAI_BLOG_URL = "https://openai.com/news"
+_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+}
 
 
 class OpenAIBlogWrapper(SourceWrapper):
@@ -43,7 +46,7 @@ class OpenAIBlogWrapper(SourceWrapper):
         self.documents: list[Document] = []
 
     @staticmethod
-    def _get_blog_content(blog_url: str) -> str:
+    def _get_blog_content_and_date(blog_url: str) -> (str, datetime):
         """
         Retrieve blog post content from its url
 
@@ -54,14 +57,20 @@ class OpenAIBlogWrapper(SourceWrapper):
 
         Returns
         -------
-        str:
-            Content of the blog post
+        Tuple[str, datetime):
+            Content of the blog post and its date
         """
-        response = requests.get(blog_url)
+
+        response = requests.get(blog_url, headers=_HEADERS)
         soup = BeautifulSoup(response.text, "html.parser")
         content_paragraphs = soup.findAll("p")
-        content_string = " ".join(p.text for p in content_paragraphs)
-        return content_string
+        date_string = soup.findAll("p", {"class", "text-caption mb-4xs"})[0].text
+
+        date = datetime.strptime(date_string, "%B %d, %Y")
+        content_string = ""
+        for p in content_paragraphs:
+            content_string += p.text + " "
+        return content_string.strip(), pytz.UTC.localize(date)
 
     def update_documents(self) -> None:
         """
@@ -69,31 +78,38 @@ class OpenAIBlogWrapper(SourceWrapper):
         end `self.end_date`)
         """
         LOGGER.info(
-            f"Checking OpenAI blogs from %s to %s",
+            "Checking OpenAI blogs from %s to %s",
             datetime.strftime(self.start_date, "%d %B %Y"),
             datetime.strftime(self.end_date, "%d %B %Y"),
         )
         self.documents = []
 
-        main_page_html = requests.get(_OPENAI_BLOG_URL)
+        main_page_html = requests.get(_OPENAI_BLOG_URL, headers=_HEADERS)
 
         soup = BeautifulSoup(main_page_html.text, "html.parser")
 
         for tag in soup.findAll(
-            "li", {"class": "lg:w-3-cols xs:w-6-cols mt-spacing-6 md:w-4-cols"}
+            "div",
+            {
+                "class": "snap-start max-m:w-[15rem] max-m:flex-none max-m:h-auto container:h-[29.471875rem] max-container:h-[calc((((var(--document-width)-2.5rem-(0.84375rem*2))*4/3)/3))] max-container:flex-unset max-container:basis-0 mr-3xs"
+            },
         ):
-            blog_tag = tag.find("a", {"class": "ui-link group relative cursor-pointer"})
+            blog_tag = tag.find(
+                "a",
+                {
+                    "class": "transition ease-curve-a duration-250 bg-gray-200 mr-3 rounded relative block w-full m:w-unset max-w-full group z-0 overflow-hidden aspect-3/4 rounded-s w-full hidden m:block max-m:h-auto container:h-[29.471875rem] max-container:h-[calc((((var(--document-width)-2.5rem-(0.84375rem*2))*4/3)/3))]"
+                },
+            )
+
+            if blog_tag is None:
+                continue
+
             blog_title = blog_tag["aria-label"]
             blog_url = urllib.parse.urljoin(_OPENAI_BASE_URL, blog_tag["href"])
 
-            blog_date = pytz.UTC.localize(
-                datetime.strptime(
-                    tag.find("span", {"class": "sr-only"}).get_text(), "%B %d, %Y"
-                )
-            )
+            blog_content, blog_date = self._get_blog_content_and_date(blog_url=blog_url)
 
             if self.start_date <= blog_date <= self.end_date:
-                blog_content = self._get_blog_content(blog_url=blog_url)
                 self.documents.append(
                     Document(
                         title=blog_title.strip(),
