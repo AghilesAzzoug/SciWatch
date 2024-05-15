@@ -1,9 +1,16 @@
 import os
 from datetime import datetime
 
+import pytest
+
 from sci_watch.source_wrappers.document import Document
 from sci_watch.summarizers import GPTSummarizer, get_summarizer
 
+
+def test_get_summarizer_error_handling():
+
+    with pytest.raises(ValueError):
+        get_summarizer(type="unknown summarizer - 123", summarizer_kwargs={})
 
 def test_azure_get_summarizer():
     os.environ["OPENAI_API_KEY"] = "sk-randomapikey"
