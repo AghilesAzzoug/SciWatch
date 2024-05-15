@@ -50,6 +50,4 @@ def send_teams(
 
         message.addSection(doc_section)
 
-    if settings.log_level == "DEBUG":
-        message.printme()
     message.send()
