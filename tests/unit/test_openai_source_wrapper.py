@@ -9,7 +9,7 @@ def test_openai_wrapper():
     current_date = pytz.UTC.localize(datetime.now())
 
     start_scrapping_date = current_date - timedelta(days=30)
-    end_scrapping_date = current_date + timedelta(days=1)
+    end_scrapping_date = current_date + timedelta(days=3)
 
     openai_wrapper = OpenAIBlogWrapper(
         max_documents=10, start_date=start_scrapping_date, end_date=end_scrapping_date
