@@ -70,11 +70,16 @@ class ArxivWrapper(SourceWrapper):
         main_page_html = requests.get(
             f"https://arxiv.org/list/{self.search_topic}/recent?show={max_papers}"
         )
+
         soup = BeautifulSoup(main_page_html.text, "html.parser")
         ids = []
 
-        for tag in soup.findAll("span", {"class": "list-identifier"}):
-            ids.append(tag.findAll("a")[0]["href"].replace("/abs/", ""))
+        articles_section = soup.findAll("dl", {"id": "articles"})[0]
+
+        abstract_tags = articles_section.findAll("a", {"title": "Abstract"})
+        for tag in abstract_tags:
+            current_arxiv_id = tag["id"]
+            ids.append(current_arxiv_id)
 
         return ids
 
@@ -90,7 +95,7 @@ class ArxivWrapper(SourceWrapper):
         )
         paper_ids = self._get_latest_papers_ids(max_papers=self.max_documents)
 
-        LOGGER.info(f"Retrieved %d paper ids", len(paper_ids))
+        LOGGER.info("Retrieved %d paper ids", len(paper_ids))
 
         query_results = []
         # batch the papers retrieval since we cannot retrieve more than ~200 documents
