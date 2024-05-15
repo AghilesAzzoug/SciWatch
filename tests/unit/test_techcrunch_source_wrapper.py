@@ -25,6 +25,11 @@ def test_convert_blog_date(date_as_str, datetime_value):
     assert _convert_blog_date(now=NOW, blog_date=date_as_str) == datetime_value
 
 
+def test_convert_error_handling():
+    with pytest.raises(ValueError):
+        _convert_blog_date(now=NOW, blog_date="12 --- 23 -- 2024")
+
+
 def test_techcrunch_wrapper():
     current_date = pytz.UTC.localize(datetime.now())
 
