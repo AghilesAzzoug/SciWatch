@@ -14,11 +14,10 @@ LOGGER = get_logger(__name__)
 _TECH_CRUNCH_BLOG_URL = "https://www.techcrunch.com/"
 
 
-def _convert_blog_date(blog_date: str) -> datetime:
+def _convert_blog_date(now: datetime, blog_date: str) -> datetime:
     """
     Converts TechCrunch blog date from string to datetime
     """
-    now = datetime.now()
 
     blog_date = blog_date.lower()
 
@@ -126,7 +125,9 @@ class TechCrunchWrapper(SourceWrapper):
             blog_url = tag_header["href"]
 
             blog_datetime = pytz.UTC.localize(
-                _convert_blog_date(tag_date.get_text().strip())
+                _convert_blog_date(
+                    now=datetime.now(), blog_date=tag_date.get_text().strip()
+                )
             )
 
             if self.start_date <= blog_datetime <= self.end_date:
