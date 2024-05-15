@@ -8,7 +8,7 @@ from sci_watch.source_wrappers.openai_wrapper import OpenAIBlogWrapper
 def test_openai_wrapper():
     current_date = pytz.UTC.localize(datetime.now())
 
-    start_scrapping_date = current_date - timedelta(days=120)
+    start_scrapping_date = current_date - timedelta(days=30)
     end_scrapping_date = current_date + timedelta(days=1)
 
     openai_wrapper = OpenAIBlogWrapper(
