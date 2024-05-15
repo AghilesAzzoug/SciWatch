@@ -1,3 +1,4 @@
+import time
 import urllib.parse
 from datetime import datetime
 
@@ -64,7 +65,8 @@ class OpenAIBlogWrapper(SourceWrapper):
         response = requests.get(blog_url, headers=_HEADERS)
         soup = BeautifulSoup(response.text, "html.parser")
         content_paragraphs = soup.findAll("p")
-        date_string = soup.findAll("p", {"class", "text-caption mb-4xs"})[0].text
+        date_string = soup.findAll("p", {"class", "text-caption mb-4xs"})
+        date_string = date_string[0].text
 
         date = datetime.strptime(date_string, "%B %d, %Y")
         content_string = ""
@@ -118,6 +120,9 @@ class OpenAIBlogWrapper(SourceWrapper):
                         content=blog_content.strip(),
                     )
                 )
+
+            # wait 1s before searching for the next blogpost
+            time.sleep(1)
 
         self.documents = sorted(self.documents, key=lambda doc: doc.date, reverse=True)[
             : self.max_documents
