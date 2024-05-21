@@ -14,6 +14,10 @@ LOGGER = get_logger(__name__)
 _TECH_CRUNCH_BLOG_URL = "https://www.techcrunch.com/"
 
 
+class NotABlogPost(Exception):
+    ...
+
+
 def _convert_blog_date(now: datetime, blog_date: str) -> datetime:
     """
     Converts TechCrunch blog date from string to datetime
@@ -92,7 +96,12 @@ class TechCrunchWrapper(SourceWrapper):
             },
         )
 
-        return content_div.text
+        try:
+            content = content_div.text
+        except Exception:
+            raise NotABlogPost()
+
+        return content
 
     def update_documents(self):
         """
@@ -123,7 +132,6 @@ class TechCrunchWrapper(SourceWrapper):
 
             blog_title = tag_header.get_text().strip()
             blog_url = tag_header["href"]
-
             blog_datetime = pytz.UTC.localize(
                 _convert_blog_date(
                     now=datetime.now(), blog_date=tag_date.get_text().strip()
@@ -131,7 +139,10 @@ class TechCrunchWrapper(SourceWrapper):
             )
 
             if self.start_date <= blog_datetime <= self.end_date:
-                blog_long_content = self._get_blog_content(blog_url=blog_url)
+                try:
+                    blog_long_content = self._get_blog_content(blog_url=blog_url)
+                except NotABlogPost:
+                    continue
                 self.documents.append(
                     Document(
                         title=blog_title.strip(),
