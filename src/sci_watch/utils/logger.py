@@ -1,5 +1,7 @@
 import logging
-from logging import Logger
+from datetime import datetime
+from logging import FileHandler, Formatter, Logger
+from pathlib import Path
 from typing import Literal
 
 import coloredlogs
@@ -8,6 +10,8 @@ import verboselogs
 from sci_watch.core.settings import settings
 
 
+_FORMAT = "[%(levelname)s] [%(process)d] [%(thread)d] [%(filename)d] %(asctime)s.%(msecs)04d %(name)s %(message)s"
+
 def get_logger(
     logger_name: str,
     level: Literal[
@@ -15,7 +19,7 @@ def get_logger(
     ] = settings.log_level,
 ) -> Logger:
     """
-    Logger getter function
+    Logger getter function.
 
     Parameters
     ----------
@@ -46,8 +50,16 @@ def get_logger(
     coloredlogs.install(
         level=level,
         logger=logger,
-        fmt="%(asctime)s.%(msecs)04d %(hostname)s %(name)s [%(process)d] %(levelname)s %(message)s",
+        fmt=_FORMAT,
         field_styles=field_styles,
     )
+
+    file_handler = FileHandler(
+        filename=Path("logs", datetime.today().strftime("%Y-%m-%d") + ".log"),
+        mode="a"
+    )
+
+    file_handler.setFormatter(Formatter(fmt=_FORMAT))
+    file_handler.setLevel(level)
 
     return logger
