@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deleted
 
+## [1.0.1] - 2024-06-18
+
+## Changed
+
+- Updated scrapping code for Arvix, TechCrunch, and OpenAI
+
 ## [1.0.0] - 2024-02-19
 
 ### Added
@@ -28,8 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated `gmail_password` env variable to `gmail_token`
 - Updated HTML email template
 - Updated GitHub CI actions (Checkout & Python)
-
-### Deleted
 
 ## [0.0.1] - 2023-07-30
 

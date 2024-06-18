@@ -1,4 +1,5 @@
-from datetime import datetime
+import re
+from datetime import datetime, timedelta
 
 import pytz
 import requests
@@ -10,9 +11,48 @@ from sci_watch.utils.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
-_TECH_CRUNCH_AI_BLOG_URL = (
-    "https://www.techcrunch.com/category/artificial-intelligence/"
-)
+_TECH_CRUNCH_BLOG_URL = "https://www.techcrunch.com/"
+
+
+class NotABlogPost(Exception):
+    ...
+
+
+def _convert_blog_date(now: datetime, blog_date: str) -> datetime:
+    """
+    Converts TechCrunch blog date from string to datetime
+    """
+
+    blog_date = blog_date.lower()
+
+    patterns = [
+        (r"(\d+)\s*seconds?\s*ago", "seconds"),
+        (r"(\d+)\s*minutes?\s*ago", "minutes"),
+        (r"(\d+)\s*mins?\s*ago", "minutes"),
+        (r"(\d+)\s*hours?\s*ago", "hours"),
+        (r"(\d+)\s*days?\s*ago", "days"),
+    ]
+
+    if "ago" in blog_date:
+        for pattern, unit in patterns:
+            match = re.match(pattern, blog_date)
+            if match:
+                value = int(match.group(1))
+
+                if unit == "seconds":
+                    return now - timedelta(seconds=value)
+                elif unit == "minutes":
+                    return now - timedelta(minutes=value)
+                elif unit == "hours":
+                    return now - timedelta(hours=value)
+                elif unit == "days":
+                    return now - timedelta(days=value)
+    elif "•" in blog_date:
+        date_str = blog_date.split("•")[1].strip()
+        return datetime.strptime(date_str, "%B %d, %Y")
+
+    else:
+        raise ValueError("Unknown date format")
 
 
 class TechCrunchWrapper(SourceWrapper):
@@ -49,9 +89,19 @@ class TechCrunchWrapper(SourceWrapper):
 
         soup = BeautifulSoup(response.text, "html.parser")
 
-        content_div = soup.find("div", {"class": "article-content"})
+        content_div = soup.find(
+            "div",
+            {
+                "class": "entry-content wp-block-post-content is-layout-flow wp-block-post-content-is-layout-flow"
+            },
+        )
 
-        return content_div.text
+        try:
+            content = content_div.text
+        except Exception:
+            raise NotABlogPost()
+
+        return content
 
     def update_documents(self):
         """
@@ -66,21 +116,33 @@ class TechCrunchWrapper(SourceWrapper):
 
         self.documents = []
 
-        main_page_html = requests.get(_TECH_CRUNCH_AI_BLOG_URL)
+        main_page_html = requests.get(_TECH_CRUNCH_BLOG_URL + self.search_topic)
 
         soup = BeautifulSoup(main_page_html.text, "html.parser")
-        for tag in soup.findAll(
-            "div", {"class": "post-block post-block--image post-block--unread"}
-        ):
-            tag_header = tag.find("a", {"class": "post-block__title__link"})
-            tag_date = tag.find("time", {"class": "river-byline__time"})
+
+        for tag in soup.findAll("div", {"class": "wp-block-tc23-post-picker"}):
+            tag_header = tag.findAll("a")[1]
+
+            tag_date = tag.find(
+                "div",
+                {
+                    "class": "has-text-color has-grey-500-color wp-block-tc23-post-time-ago has-small-font-size"
+                },
+            )
 
             blog_title = tag_header.get_text().strip()
             blog_url = tag_header["href"]
-            blog_datetime = datetime.fromisoformat(tag_date["datetime"])
-            if self.start_date <= blog_datetime <= self.end_date:
-                blog_long_content = self._get_blog_content(blog_url=blog_url)
+            blog_datetime = pytz.UTC.localize(
+                _convert_blog_date(
+                    now=datetime.now(), blog_date=tag_date.get_text().strip()
+                )
+            )
 
+            if self.start_date <= blog_datetime <= self.end_date:
+                try:
+                    blog_long_content = self._get_blog_content(blog_url=blog_url)
+                except NotABlogPost:
+                    continue
                 self.documents.append(
                     Document(
                         title=blog_title.strip(),

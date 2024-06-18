@@ -13,7 +13,7 @@ from sci_watch.source_wrappers.techcrunch_wrapper import TechCrunchWrapper
 @pytest.fixture
 def config():
     return {
-        "title": "Relevent papers",
+        "title": "Relevant papers",
         "end_date": "now",
         "time_delta": "02:00:00:00",
         "email": {"recipients": ["ea_azzoug@esi.dz"]},
