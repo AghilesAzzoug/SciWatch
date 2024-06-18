@@ -107,6 +107,7 @@ discuss/explain what you would like to change.
 - [ ] (refactor) Refactor configuration file parsing (and a lot of other things)
 - [ ] (perf) Add [short-circuit evaluation](https://en.wikipedia.org/wiki/Short-circuit_evaluation) for queries
 - [ ] (perf) Run sources only once for all queries
+- [ ] (perf) Process queries asynchronously
 
 Feel free to post an issue or send an email if you have any idea :)
 
