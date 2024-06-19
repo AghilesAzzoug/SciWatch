@@ -37,23 +37,23 @@ class SciWatcher:
         self.start_date = self.end_date - self._get_time_delta(config["time_delta"])
 
         # TODO: refactor fast. FAST!
-        self.email_config = config.get("email", None)
+        self.email_config = config.get("email")
         if self.email_config:
             LOGGER.info("Email config: %s", self.email_config)
 
-        self.teams_config = config.get("teams", None)
+        self.teams_config = config.get("teams")
         if self.teams_config:
             LOGGER.info("Teams config: %s", self.teams_config)
 
-        self.slack_config = config.get("slack", None)
+        self.slack_config = config.get("slack")
         if self.slack_config:
             LOGGER.info("Slack config: %s", self.slack_config)
 
-        self.local_dir_config = config.get("local_dir", None)
+        self.local_dir_config = config.get("local_dir")
         if self.local_dir_config:
             LOGGER.info("Local dir config: %s", self.local_dir_config)
 
-        self.summarization_config = config.get("summarize", None)
+        self.summarization_config = config.get("summarize")
         self.summarizer = None
         if self.summarization_config:
             LOGGER.info(
