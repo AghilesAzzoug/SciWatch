@@ -71,7 +71,8 @@ def get_logger(
 
 def broad_except_logging(logger: Logger) -> Callable:
     """
-    Wrap an entire function in a try / except block in order to catch and *log* any Exception.
+    Wrap an entire function in a try / except block in order to catch and *log* any Exception; such exceptions 
+    are propagated to the caller.
 
     Parameters
     ----------
@@ -81,14 +82,15 @@ def broad_except_logging(logger: Logger) -> Callable:
     Returns
     -------
     callable:
-        The decorated function wrapped in a try / except block.
+        The decorated function wrapped in a try / except block with error propagation.
     """
     def decorator_factory(func: Callable):
         @wraps(func)
         def with_logging(*args, **kwargs):
             try:
                 return func(*args, **kwargs)
-            except Exception as e:
+            except Exception:
                 logger.exception("An uncaught exception was raised")
+                raise
         return with_logging
     return decorator_factory
