@@ -1,8 +1,9 @@
 import logging
 from datetime import datetime
+from functools import wraps
 from logging import FileHandler, Formatter, Logger
 from pathlib import Path
-from typing import Literal
+from typing import Callable, Literal
 
 import coloredlogs
 import verboselogs
@@ -56,10 +57,38 @@ def get_logger(
 
     file_handler = FileHandler(
         filename=Path("logs", datetime.today().strftime("%Y-%m-%d") + ".log"),
-        mode="a"
+        mode="a",
+        encoding='utf-8'
     )
 
     file_handler.setFormatter(Formatter(fmt=_FORMAT))
     file_handler.setLevel(level)
 
+    logger.addHandler(file_handler)
+
     return logger
+
+
+def broad_except_logging(logger: Logger) -> Callable:
+    """
+    Wrap an entire function in a try / except block in order to catch and *log* any Exception.
+
+    Parameters
+    ----------
+    logger: logging.Logger
+        The logger to use for logging raised exceptions.
+
+    Returns
+    -------
+    callable:
+        The decorated function wrapped in a try / except block.
+    """
+    def decorator_factory(func: Callable):
+        @wraps(func)
+        def with_logging(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except Exception as e:
+                logger.exception("An uncaught exception was raised")
+        return with_logging
+    return decorator_factory
