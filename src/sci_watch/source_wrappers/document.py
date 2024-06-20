@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Union
 
 
 class Document:
@@ -10,7 +11,7 @@ class Document:
         self,
         title: str,
         url: str,
-        date: datetime | str,
+        date: Union[datetime, str],
         content: str,
         from_query: str = "",
     ) -> None:
