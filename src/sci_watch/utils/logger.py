@@ -10,7 +10,6 @@ import verboselogs
 
 from sci_watch.core.settings import settings
 
-
 _FORMAT = "[%(levelname)s] [%(process)d] [%(thread)d] [%(name)s] %(asctime)s.%(msecs)04d %(message)s"
 _DATE_FORMAT = "%H:%M:%S"
 
@@ -60,11 +59,7 @@ def get_logger(
 
     log_path = Path("logs", datetime.today().strftime("%Y-%m-%d") + ".log")
     log_path.parent.mkdir(exist_ok=True, parents=True)
-    file_handler = FileHandler(
-        filename=log_path,
-        mode="a+",
-        encoding='utf-8'
-    )
+    file_handler = FileHandler(filename=log_path, mode="a+", encoding="utf-8")
 
     file_handler.setFormatter(Formatter(fmt=_FORMAT, datefmt=_DATE_FORMAT))
     file_handler.setLevel(level)
@@ -76,7 +71,7 @@ def get_logger(
 
 def logging_wrapper(logger: Logger) -> Callable:
     """
-    Wrap an entire function in a try / except block in order to catch and *log* any Exception; such exceptions 
+    Wrap an entire function in a try / except block in order to catch and *log* any Exception; such exceptions
     are propagated to the caller.
 
     Parameters
@@ -89,6 +84,7 @@ def logging_wrapper(logger: Logger) -> Callable:
     callable:
         The decorated function wrapped in a try / except block with error propagation.
     """
+
     def decorator_factory(func: Callable):
         @wraps(func)
         def with_logging(*args, **kwargs):
@@ -97,5 +93,7 @@ def logging_wrapper(logger: Logger) -> Callable:
             except Exception:
                 logger.exception("An unexpected exception was raised")
                 raise
+
         return with_logging
+
     return decorator_factory

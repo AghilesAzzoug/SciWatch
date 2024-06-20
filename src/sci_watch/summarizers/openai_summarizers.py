@@ -62,7 +62,9 @@ class GPTSummarizer(AbstractSummarizer):
         try:
             summary = self._stuff_chain.run([langchain_doc])
         except Exception:
-            LOGGER.exception("An error occurred during summarization of document %s", doc.title)
+            LOGGER.exception(
+                "An error occurred during summarization of document %s", doc.title
+            )
             summary = "[error]"
         return summary
 
