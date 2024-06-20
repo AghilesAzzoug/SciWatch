@@ -16,9 +16,6 @@ class Query:
     Keyword query class
     """
 
-    title: str
-    raw_content: str
-
     def __init__(
         self,
         title: str,
