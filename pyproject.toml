@@ -9,9 +9,6 @@ maintainers = ["Aghiles Azzoug <aghiles.ahmed.azzoug@gmail.com>"]
 keywords = [
     "Scientific Monitoring"
 ]
-packages = [
-    { include = "src/" }
-]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
