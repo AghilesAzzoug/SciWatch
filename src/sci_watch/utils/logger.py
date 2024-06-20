@@ -11,7 +11,9 @@ import verboselogs
 from sci_watch.core.settings import settings
 
 
-_FORMAT = "[%(levelname)s] [%(process)d] [%(thread)d] [%(filename)d] %(asctime)s.%(msecs)04d %(name)s %(message)s"
+_FORMAT = "[%(levelname)s] [%(process)d] [%(thread)d] [%(name)s] %(asctime)s.%(msecs)04d %(message)s"
+_DATE_FORMAT = "%H:%M:%S"
+
 
 def get_logger(
     logger_name: str,
@@ -52,16 +54,19 @@ def get_logger(
         level=level,
         logger=logger,
         fmt=_FORMAT,
+        datefmt=_DATE_FORMAT,
         field_styles=field_styles,
     )
 
+    log_path = Path("logs", datetime.today().strftime("%Y-%m-%d") + ".log")
+    log_path.parent.mkdir(exist_ok=True, parents=True)
     file_handler = FileHandler(
-        filename=Path("logs", datetime.today().strftime("%Y-%m-%d") + ".log"),
-        mode="a",
+        filename=log_path,
+        mode="a+",
         encoding='utf-8'
     )
 
-    file_handler.setFormatter(Formatter(fmt=_FORMAT))
+    file_handler.setFormatter(Formatter(fmt=_FORMAT, datefmt=_DATE_FORMAT))
     file_handler.setLevel(level)
 
     logger.addHandler(file_handler)
@@ -90,7 +95,7 @@ def broad_except_logging(logger: Logger) -> Callable:
             try:
                 return func(*args, **kwargs)
             except Exception:
-                logger.exception("An uncaught exception was raised")
+                logger.exception("An unexpected exception was raised")
                 raise
         return with_logging
     return decorator_factory
