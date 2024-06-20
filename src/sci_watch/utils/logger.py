@@ -74,7 +74,7 @@ def get_logger(
     return logger
 
 
-def broad_except_logging(logger: Logger) -> Callable:
+def logging_wrapper(logger: Logger) -> Callable:
     """
     Wrap an entire function in a try / except block in order to catch and *log* any Exception; such exceptions 
     are propagated to the caller.

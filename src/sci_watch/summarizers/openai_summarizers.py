@@ -6,7 +6,9 @@ from langchain.prompts import PromptTemplate
 
 from sci_watch.source_wrappers.document import Document
 from sci_watch.summarizers.summarizer import AbstractSummarizer
+from sci_watch.utils.logger import get_logger
 
+LOGGER = get_logger(__name__)
 _SUMMARY_TEMPLATE = """In one sentence, write a concise summary of the following text:
 ```
 {document}
@@ -60,6 +62,7 @@ class GPTSummarizer(AbstractSummarizer):
         try:
             summary = self._stuff_chain.run([langchain_doc])
         except Exception:
+            LOGGER.exception("An error occurred during summarization of document %s", doc.title)
             summary = "[error]"
         return summary
 

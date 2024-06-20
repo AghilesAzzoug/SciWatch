@@ -18,7 +18,7 @@ from sci_watch.source_wrappers.arxiv_wrapper import ArxivWrapper
 from sci_watch.source_wrappers.openai_wrapper import OpenAIBlogWrapper
 from sci_watch.source_wrappers.techcrunch_wrapper import TechCrunchWrapper
 from sci_watch.summarizers import AbstractSummarizer, get_summarizer
-from sci_watch.utils.logger import get_logger
+from sci_watch.utils.logger import get_logger, logging_wrapper
 from sci_watch.watcher.watcher import Watcher
 
 LOGGER = get_logger(__name__)
@@ -94,6 +94,7 @@ class SciWatcher:
         return cls(config=config)
 
     @staticmethod
+    @logging_wrapper(LOGGER)
     def _get_summarizer(summarizer_config: dict[str, ...]) -> AbstractSummarizer:
         summarizer_type = summarizer_config["type"]
         return get_summarizer(type=summarizer_type, summarizer_kwargs=summarizer_config)
@@ -144,6 +145,7 @@ class SciWatcher:
                 'Currently only "now" is supported for "end_date" field'
             )
 
+    @logging_wrapper(LOGGER)
     def _load_sources(self, sources: list[dict]) -> list[SourceWrapper]:
         """
         Load sources from their string representation
@@ -194,6 +196,7 @@ class SciWatcher:
         return source_objects
 
     @staticmethod
+    @logging_wrapper(LOGGER)
     def _load_queries(queries: list[dict]) -> list[Query]:
         """
         Load queries from their string representation
@@ -218,6 +221,7 @@ class SciWatcher:
 
         return query_objects
 
+    @logging_wrapper(LOGGER)
     def exec(self) -> None:
         """
         Run the queries on all the sources, sends an email and/or teams message if relevant documents are found
