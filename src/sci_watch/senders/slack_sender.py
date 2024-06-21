@@ -1,5 +1,4 @@
 import os
-from typing import Union
 
 from slack_sdk import WebClient
 
@@ -15,7 +14,7 @@ _MAX_BLOCKS_PER_MESSAGE = 50
 
 def _create_document_block(
     document: Document, summary: str = None
-) -> list[dict[str, Union[str, list, dict]]]:
+) -> list[dict[str, str | list | dict]]:
     """
     Create slack bloc structure.
 

@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Union
 
 import pytz
 import toml
@@ -76,7 +75,7 @@ class SciWatcher:
         LOGGER.info("Got %i watchers", len(self.watchers))
 
     @classmethod
-    def from_toml(cls, path: Union[os.PathLike, Path]) -> SciWatcher:
+    def from_toml(cls, path: os.PathLike | Path) -> SciWatcher:
         """
         Create a Scrapper from toml file
 
