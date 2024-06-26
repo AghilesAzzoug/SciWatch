@@ -57,14 +57,15 @@ def get_logger(
         field_styles=field_styles,
     )
 
-    log_path = Path("logs", datetime.today().strftime("%Y-%m-%d") + ".log")
-    log_path.parent.mkdir(exist_ok=True, parents=True)
-    file_handler = FileHandler(filename=log_path, mode="a+", encoding="utf-8")
+    if settings.log_file_path:
+        log_path = Path(settings.log_file_path)
+        log_path.parent.mkdir(exist_ok=True, parents=True)
+        file_handler = FileHandler(filename=log_path, mode="a+", encoding="utf-8")
 
-    file_handler.setFormatter(Formatter(fmt=_FORMAT, datefmt=_DATE_FORMAT))
-    file_handler.setLevel(level)
+        file_handler.setFormatter(Formatter(fmt=_FORMAT, datefmt=_DATE_FORMAT))
+        file_handler.setLevel(level)
 
-    logger.addHandler(file_handler)
+        logger.addHandler(file_handler)
 
     return logger
 
