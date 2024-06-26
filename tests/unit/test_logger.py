@@ -15,9 +15,8 @@ def test_logging_wrapper(capsys):
     with TemporaryDirectory() as temp_dir:
         os.chdir(temp_dir)
 
-        # Need to be reworked later for a cleaner solution
-        test_logger = get_logger(__name__)
-        file_log_path = Path(test_logger.handlers[1].baseFilename)
+        log_path = Path("logs", "test.log")
+        test_logger = get_logger(__name__, log_file_path=log_path)
 
         @logging_wrapper(test_logger)
         def failable_function(fail: bool):
@@ -32,9 +31,9 @@ def test_logging_wrapper(capsys):
         with pytest.raises(ValueError):
             failable_function(fail=True)
         
-        assert file_log_path.exists()
+        assert log_path.exists()
 
-        with file_log_path.open(encoding="utf-8") as fd:
+        with log_path.open(encoding="utf-8") as fd:
             file_logs = fd.read()
 
         stderr_logs = capsys.readouterr().err
@@ -43,10 +42,5 @@ def test_logging_wrapper(capsys):
             assert "INFO" not in logs
             assert logs.count("ERROR") == 1
             assert "Something bad happened" in logs 
-
-        # The stream for the FileHandler needs to be closed before removing
-        # the temporary directory
-        test_logger.handlers[1].close()
-        test_logger.removeHandler(test_logger.handlers[1])
 
         os.chdir(current_wd)

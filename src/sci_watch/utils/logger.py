@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+import os
 from functools import wraps
 from logging import FileHandler, Formatter, Logger
 from pathlib import Path
@@ -19,6 +19,7 @@ def get_logger(
     level: Literal[
         "NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL", "CRITICAL"
     ] = settings.log_level,
+    log_file_path: str | os.PathLike = settings.log_file_path,
 ) -> Logger:
     """
     Logger getter function.
@@ -57,8 +58,8 @@ def get_logger(
         field_styles=field_styles,
     )
 
-    if settings.log_file_path:
-        log_path = Path(settings.log_file_path)
+    if log_file_path:
+        log_path = Path(log_file_path)
         log_path.parent.mkdir(exist_ok=True, parents=True)
         file_handler = FileHandler(filename=log_path, mode="a+", encoding="utf-8")
 
