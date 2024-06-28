@@ -1,0 +1,7 @@
+sci\_watch.senders.slack\_sender module
+=======================================
+
+.. automodule:: sci_watch.senders.slack_sender
+   :members:
+   :undoc-members:
+   :show-inheritance:

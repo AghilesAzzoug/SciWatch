@@ -1,0 +1,7 @@
+sci\_watch.sci\_watcher module
+==============================
+
+.. automodule:: sci_watch.sci_watcher
+   :members:
+   :undoc-members:
+   :show-inheritance:
