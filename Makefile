@@ -20,11 +20,11 @@ install-dev:
 
 .PHONY: format
 format:
-	@poetry run python -m black -t py38 src/*
+	@poetry run python -m black -t py38 src
 
 .PHONY: linter
 linter:
-	@poetry run python -m pylint --fail-under ${LINTER_THRESHOLD} --rcfile=.pylintrc src/*
+	@poetry run python -m pylint --fail-under ${LINTER_THRESHOLD} --rcfile=.pylintrc src
 
 .PHONY: pre-commit
 pre-commit:
@@ -32,15 +32,15 @@ pre-commit:
 
 .PHONY: sort-imports
 sort-imports:
-	@poetry run python -m isort src/* tests/*
+	@poetry run python -m isort src tests
 
 .PHONY: find-dead-code
 find-dead-code:
-	@poetry run python -m vulture --min-confidence ${VULTURE_THRESHOLD} src/* tests/*
+	@poetry run python -m vulture --min-confidence ${VULTURE_THRESHOLD} src tests
 
 .PHONY: coverage
 coverage:
-	@poetry run python -m coverage run -m pytest tests/* --html=${TESTS_HTML_DIR}/html_report.html --self-contained-html
+	@poetry run python -m coverage run -m pytest tests --html=${TESTS_HTML_DIR}/html_report.html --self-contained-html
 
 .PHONY: coverage-report-html
 coverage-report-html:

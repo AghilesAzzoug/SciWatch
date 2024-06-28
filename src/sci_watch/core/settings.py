@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     grammar_path: str = Field(env="grammar_path")
     http_proxy: str = Field(env="http_proxy", default=None)
     https_proxy: str = Field(env="https_proxy", default=None)
+    log_file_path: str = Field(env="log_file_path", default=None)
 
     class Config:
         allow_mutation = False

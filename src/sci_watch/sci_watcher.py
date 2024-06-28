@@ -17,7 +17,7 @@ from sci_watch.source_wrappers.arxiv_wrapper import ArxivWrapper
 from sci_watch.source_wrappers.openai_wrapper import OpenAIBlogWrapper
 from sci_watch.source_wrappers.techcrunch_wrapper import TechCrunchWrapper
 from sci_watch.summarizers import AbstractSummarizer, get_summarizer
-from sci_watch.utils.logger import get_logger
+from sci_watch.utils.logger import get_logger, logging_wrapper
 from sci_watch.watcher.watcher import Watcher
 
 LOGGER = get_logger(__name__)
@@ -37,23 +37,23 @@ class SciWatcher:
         self.start_date = self.end_date - self._get_time_delta(config["time_delta"])
 
         # TODO: refactor fast. FAST!
-        self.email_config = config.get("email", None)
+        self.email_config = config.get("email")
         if self.email_config:
             LOGGER.info("Email config: %s", self.email_config)
 
-        self.teams_config = config.get("teams", None)
+        self.teams_config = config.get("teams")
         if self.teams_config:
             LOGGER.info("Teams config: %s", self.teams_config)
 
-        self.slack_config = config.get("slack", None)
+        self.slack_config = config.get("slack")
         if self.slack_config:
             LOGGER.info("Slack config: %s", self.slack_config)
 
-        self.local_dir_config = config.get("local_dir", None)
+        self.local_dir_config = config.get("local_dir")
         if self.local_dir_config:
             LOGGER.info("Local dir config: %s", self.local_dir_config)
 
-        self.summarization_config = config.get("summarize", None)
+        self.summarization_config = config.get("summarize")
         self.summarizer = None
         if self.summarization_config:
             LOGGER.info(
@@ -93,6 +93,7 @@ class SciWatcher:
         return cls(config=config)
 
     @staticmethod
+    @logging_wrapper(LOGGER)
     def _get_summarizer(summarizer_config: dict[str, ...]) -> AbstractSummarizer:
         summarizer_type = summarizer_config["type"]
         return get_summarizer(type=summarizer_type, summarizer_kwargs=summarizer_config)
@@ -143,6 +144,7 @@ class SciWatcher:
                 'Currently only "now" is supported for "end_date" field'
             )
 
+    @logging_wrapper(LOGGER)
     def _load_sources(self, sources: list[dict]) -> list[SourceWrapper]:
         """
         Load sources from their string representation
@@ -193,6 +195,7 @@ class SciWatcher:
         return source_objects
 
     @staticmethod
+    @logging_wrapper(LOGGER)
     def _load_queries(queries: list[dict]) -> list[Query]:
         """
         Load queries from their string representation
@@ -217,6 +220,7 @@ class SciWatcher:
 
         return query_objects
 
+    @logging_wrapper(LOGGER)
     def exec(self) -> None:
         """
         Run the queries on all the sources, sends an email and/or teams message if relevant documents are found
