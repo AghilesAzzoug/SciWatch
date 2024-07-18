@@ -124,9 +124,9 @@ class TechCrunchWrapper(SourceWrapper):
             tag_header = tag.findAll("a")[1]
 
             tag_date = tag.find(
-                "div",
+                "time",
                 {
-                    "class": "has-text-color has-grey-500-color wp-block-tc23-post-time-ago has-small-font-size"
+                    "class": "has-text-color has-grey-500-color wp-block-tc23-post-time-ago has-xsmall-font-size"
                 },
             )
 
