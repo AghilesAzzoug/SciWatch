@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deleted
 
+## [1.0.2] - 2025-02-28
+
+## Changed
+
+- Updated scrapping code for Arvix (number of latest papers should be one of 25, 50, 100, 250, 500, 1000, 2000)
+- Updated TechCrunch scrapping code
+
 ## [1.0.1] - 2024-06-18
 
 ## Changed

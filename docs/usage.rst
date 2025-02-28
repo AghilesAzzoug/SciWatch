@@ -41,7 +41,7 @@ Lets suppose we named the file :code:`scrapping_config.toml`.
     type = "arxiv" # check for Computer Science papers on Arxiv
     use_abstract_as_content = true
     search_topic = "cs"
-    max_documents = 200
+    max_documents = 500 # should be one of 25, 50, 100, 250, 500, 1000, 2000
 
     [[source]]
     type = "openai_blog" # check for latest blogs on OpenAI blog (mainly for GPT updates)

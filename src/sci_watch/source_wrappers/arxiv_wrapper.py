@@ -40,6 +40,12 @@ class ArxivWrapper(SourceWrapper):
         use_abstract_as_content: bool
             Whether the use the abstract of the paper as its content
         """
+
+        if max_documents not in [25, 50, 100, 250, 500, 1000, 2000]:
+            raise ValueError(
+                "max_documents should be one of 25, 50, 100, 250, 500, 1000, 2000, got {max_documents}"
+            )
+
         self.search_topic = search_topic
         self.max_documents = max_documents
         self.start_date = start_date

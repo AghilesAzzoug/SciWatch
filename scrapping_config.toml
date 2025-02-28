@@ -37,7 +37,7 @@ raw_content = """intitle:("active learning") AND incontent:(VRD OR documents OR 
 type = "arxiv"
 use_abstract_as_content = true
 search_topic = "cs"
-max_documents = 400
+max_documents = 500
 
 [[source]]
 type = "openai_blog"

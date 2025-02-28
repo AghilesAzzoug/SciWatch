@@ -92,7 +92,7 @@ class TechCrunchWrapper(SourceWrapper):
         content_div = soup.find(
             "div",
             {
-                "class": "entry-content wp-block-post-content is-layout-flow wp-block-post-content-is-layout-flow"
+                "class": "entry-content wp-block-post-content is-layout-constrained wp-block-post-content-is-layout-constrained"
             },
         )
 
@@ -120,18 +120,24 @@ class TechCrunchWrapper(SourceWrapper):
 
         soup = BeautifulSoup(main_page_html.text, "html.parser")
 
-        for tag in soup.findAll("div", {"class": "wp-block-tc23-post-picker"}):
-            tag_header = tag.findAll("a")[1]
+        for tag in soup.findAll(
+            "div",
+            {
+                "class": "loop-card loop-card--post-type-post loop-card--default loop-card--horizontal loop-card--wide loop-card--force-storyline-aspect-ratio"
+            },
+        ):
+            tag_header = tag.findAll("a", {"class": "loop-card__title-link"})[0]
 
             tag_date = tag.find(
                 "time",
                 {
-                    "class": "has-text-color has-grey-500-color wp-block-tc23-post-time-ago has-xsmall-font-size"
+                    "class": "loop-card__meta-item loop-card__time wp-block-tc23-post-time-ago"
                 },
             )
 
             blog_title = tag_header.get_text().strip()
             blog_url = tag_header["href"]
+
             blog_datetime = pytz.UTC.localize(
                 _convert_blog_date(
                     now=datetime.now(), blog_date=tag_date.get_text().strip()
