@@ -1,0 +1,7 @@
+sci\_watch.source\_wrappers.abstract\_wrapper module
+====================================================
+
+.. automodule:: sci_watch.source_wrappers.abstract_wrapper
+   :members:
+   :undoc-members:
+   :show-inheritance:
