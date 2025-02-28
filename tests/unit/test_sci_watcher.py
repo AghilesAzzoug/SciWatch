@@ -32,7 +32,7 @@ def config():
                 "type": "arxiv",
                 "use_abstract_as_content": True,
                 "search_topic": "cs",
-                "max_documents": 10,
+                "max_documents": 25,
             },
             {"type": "openai_blog", "max_documents": 5},
             {
