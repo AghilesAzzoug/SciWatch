@@ -38,7 +38,7 @@ def test_arxiv_wrapper(mocker):
 
     arxiv_wrapper = ArxivWrapper(
         search_topic="cs",
-        max_documents=10,
+        max_documents=25,
         start_date=start_scrapping_date,
         end_date=end_scrapping_date,
         use_abstract_as_content=True,
@@ -90,7 +90,7 @@ def test_arxiv_wrapper_get_paper_ids(mocker):
 
     arxiv_wrapper = ArxivWrapper(
         search_topic="cs",
-        max_documents=10,
+        max_documents=25,
         start_date=start_scrapping_date,
         end_date=current_date,
         use_abstract_as_content=True,
@@ -103,7 +103,7 @@ def test_arxiv_wrapper_get_paper_ids(mocker):
 
     returns_paper_ids = mock_arxiv_search.call_args.kwargs["id_list"]
     # check if "latest" paper page is parsed correctly
-    assert len(returns_paper_ids) == 10
+    assert len(returns_paper_ids) == 25
     # check if paper ids still follows the right naming convention
     assert all(
         [
