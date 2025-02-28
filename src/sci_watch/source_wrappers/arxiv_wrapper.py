@@ -41,9 +41,9 @@ class ArxivWrapper(SourceWrapper):
             Whether the use the abstract of the paper as its content
         """
 
-        if max_documents % 25 != 0 and max_documents <= 2000:
+        if max_documents % 25 != 0 or max_documents > 2000:
             raise ValueError(
-                "max_documents should be a multiple of 25 for Arxiv, got {max_documents}"
+                "max_documents should be a multiple of 25 for Arxiv and <= 2000, got {max_documents}"
             )
 
         self.search_topic = search_topic
