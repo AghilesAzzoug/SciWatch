@@ -7,6 +7,7 @@ Welcome to SciWatch's documentation!
 .. _Arxiv: https://arxiv.org/
 .. _OpenAI blog: https://openai.com/blog
 .. _TechCrunch Blog: https://techcrunch.com/
+.. _Reddit: https://www.reddit.com/
 
 **SciWatch** is a Python package designed to facilitate scientific monitoring
 for data scientists and AI researchers (mainly). It serves as a useful tool for staying up-to-date
@@ -26,6 +27,7 @@ Currently, you can monitor publications from:
 - Arxiv_
 - `OpenAI Blog`_
 - `TechCrunch Blog`_
+- Reddit_
 
 .. toctree::
    :maxdepth: 2

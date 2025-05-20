@@ -47,6 +47,12 @@ Lets suppose we named the file :code:`scrapping_config.toml`.
     type = "openai_blog" # check for latest blogs on OpenAI blog (mainly for GPT updates)
     max_documents = 20
 
+    [[source]]
+    type = "reddit"
+    sub_reddits = ["ChatGPTJailbreak", "PromptEngineering"]
+    min_submission_score = 2
+    max_documents_per_sub_reddit = 10
+
 For more information about query syntax see :ref:`query`.
 
 Run the watcher

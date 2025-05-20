@@ -66,6 +66,13 @@ max_documents = 200
 [[source]]
 type = "openai_blog" # check for latest blogs on OpenAI blog (mainly for GPT updates)
 max_documents = 20
+
+[[source]]
+type = "reddit"
+sub_reddits = ["ChatGPTJailbreak", "PromptEngineering"]
+max_documents = 200
+min_submission_score = 2
+max_documents_per_sub_reddit = 10
 ```
 
 3. Run the watcher

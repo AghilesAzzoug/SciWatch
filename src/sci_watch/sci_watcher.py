@@ -15,6 +15,7 @@ from sci_watch.senders.teams_sender import send_teams
 from sci_watch.source_wrappers.abstract_wrapper import SourceWrapper
 from sci_watch.source_wrappers.arxiv_wrapper import ArxivWrapper
 from sci_watch.source_wrappers.openai_wrapper import OpenAIBlogWrapper
+from sci_watch.source_wrappers.reddit_wrapper import RedditWrapper
 from sci_watch.source_wrappers.techcrunch_wrapper import TechCrunchWrapper
 from sci_watch.summarizers import AbstractSummarizer, get_summarizer
 from sci_watch.utils.logger import get_logger, logging_wrapper
@@ -189,6 +190,18 @@ class SciWatcher:
                         max_documents=source_params["max_documents"],
                     )
                 )
+            elif source_type == "reddit":
+                source_objects.append(
+                    RedditWrapper(
+                        start_date=self.start_date,
+                        end_date=self.end_date,
+                        sub_reddits=source_params["sub_reddits"],
+                        min_submission_score=source_params["min_submission_score"],
+                        max_documents_per_sub_reddit=source_params[
+                            "max_documents_per_sub_reddit"
+                        ],
+                    )
+                )
             else:
                 raise ValueError(f"No source named {source_type}.")
 
@@ -254,7 +267,7 @@ class SciWatcher:
             if self.email_config:
                 LOGGER.info("Sending email")
                 send_email(
-                    subject=f'{self.title} - {datetime.now().strftime("%Y-%m-%d")}',
+                    subject=f"{self.title} - {datetime.now().strftime('%Y-%m-%d')}",
                     recipients=self.email_config["recipients"],
                     docs=docs,
                     summaries=summaries,
