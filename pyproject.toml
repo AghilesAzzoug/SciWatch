@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sci_watch"
-version = "1.0.2"
+version = "1.1.0"
 description = "Scientific Monitoring Tool"
 license = "MIT"
 readme = "README.md"
@@ -27,6 +27,7 @@ langchain = "^0.0.292"
 openai = "^0.28.0"
 pymsteams = "^0.2.2"
 slack-sdk = "^3.26.2"
+praw = "^7.8.1"
 
 
 [tool.poetry.group.dev.dependencies]
