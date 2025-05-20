@@ -2,7 +2,6 @@ import os
 
 from slack_sdk import WebClient
 
-from sci_watch.core.settings import settings
 from sci_watch.source_wrappers.document import Document
 from sci_watch.utils.logger import get_logger
 
@@ -88,10 +87,13 @@ def send_slack(
         List of summaries
     """
 
+    if "SLACK_OAUTH_TOKEN" not in os.environ:
+        raise ValueError("SLACK_OAUTH_TOKEN env variable not found")
+
     client = WebClient(
         token=os.environ["SLACK_OAUTH_TOKEN"],
         timeout=_SLACK_TIMEOUT,
-        proxy=settings.https_proxy,
+        proxy=os.environ.get("HTTP_PROXY", None),
         logger=LOGGER,
     )
 

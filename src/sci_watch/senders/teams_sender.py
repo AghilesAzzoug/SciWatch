@@ -1,8 +1,8 @@
 import datetime
+import os
 
 import pymsteams
 
-from sci_watch.core.settings import settings
 from sci_watch.source_wrappers.document import Document
 
 
@@ -24,8 +24,8 @@ def send_teams(
     # see https://pypi.org/project/pymsteams/
     message = pymsteams.connectorcard(
         hookurl=webhook_url,
-        http_proxy=settings.http_proxy,
-        https_proxy=settings.https_proxy,
+        http_proxy=os.environ.get("HTTP_PROXY", None),
+        https_proxy=os.environ.get("HTTPS_PROXY", None),
         http_timeout=120,
         verify=False,
     )

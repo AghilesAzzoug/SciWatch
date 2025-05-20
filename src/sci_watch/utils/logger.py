@@ -8,8 +8,6 @@ from typing import Callable, Literal
 import coloredlogs
 import verboselogs
 
-from sci_watch.core.settings import settings
-
 _FORMAT = "[%(levelname)s] [%(process)d] [%(thread)d] [%(name)s] %(asctime)s.%(msecs)04d %(message)s"
 _DATE_FORMAT = "%H:%M:%S"
 
@@ -18,8 +16,8 @@ def get_logger(
     logger_name: str,
     level: Literal[
         "NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL", "CRITICAL"
-    ] = settings.log_level,
-    log_file_path: str | os.PathLike = settings.log_file_path,
+    ] = os.environ.get("LOG_LEVEL", "INFO"),
+    log_file_path: str | os.PathLike = os.environ.get("LOG_FILE_PATH", None),
 ) -> Logger:
     """
     Logger getter function.
