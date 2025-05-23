@@ -33,8 +33,8 @@ See [senders](https://aghilesazzoug.github.io/SciWatch/senders.html) documentati
 Example for with Gmail, setup the following env variables:
 
 ```sh
-export gmail_sender=test@email.com
-export gmail_token=your_token
+export GMAIL_SENDER=test@gmail.com
+export GMAIL_TOKEN=your_token
 ```
 
 2. Write a config (`scrapping_config.toml`)
