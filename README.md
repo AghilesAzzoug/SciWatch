@@ -70,7 +70,6 @@ max_documents = 20
 [[source]]
 type = "reddit"
 sub_reddits = ["ChatGPTJailbreak", "PromptEngineering"]
-max_documents = 200
 min_submission_score = 2
 max_documents_per_sub_reddit = 10
 ```
