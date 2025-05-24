@@ -24,7 +24,7 @@ class RedditWrapper(SourceWrapper):
         client_id = client_id if client_id else os.environ.get("REDDIT_CLIENT_ID", None)
         if client_id is None:
             raise ValueError(
-                "client_id not found in RedditWrapper init or in env. variables"
+                "REDDIT_CLIENT_ID not found in RedditWrapper init or in env. variables"
             )
 
         client_secret = (
@@ -33,7 +33,7 @@ class RedditWrapper(SourceWrapper):
 
         if client_secret is None:
             raise ValueError(
-                "client_id not found in RedditWrapper init or in env. variables"
+                "REDDIT_SECRET not found in RedditWrapper init or in env. variables"
             )
         self.documents: list[Document] = []
 
