@@ -24,3 +24,9 @@ max_documents = 20
 type = "techcrunch"
 search_topic = "category/artificial-intelligence/"
 max_documents = 50
+
+[[source]]
+type = "reddit"
+sub_reddits = ["ChatGPTJailbreak", "PromptEngineering", "ChatGPT", "OpenAI", "deeplearning", "LocalLLaMA"]
+min_submission_score = 2
+max_documents_per_sub_reddit = 20

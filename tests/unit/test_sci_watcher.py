@@ -145,7 +145,9 @@ def test_exec(config, mocker):
     assert mock_send_email.call_args.kwargs["recipients"] == sci_watcher.email_config["recipients"]
 
 
-def test_toml_load(unit_test_scrapping_config_path):
+def test_toml_load(mocker, unit_test_scrapping_config_path):
+    mocker.patch.dict("os.environ", {"REDDIT_SECRET": "reddit_secret_test", "REDDIT_CLIENT_ID": ""})
+
     sci_watcher = SciWatcher.from_toml(unit_test_scrapping_config_path)
 
     assert sci_watcher.title == "Unit test config"
