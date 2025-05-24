@@ -4,5 +4,5 @@ from pytest import fixture
 
 
 @fixture
-def grammar_path():
-    return Path(Path.cwd(), "src", "wrapper", "assets", "grammar.lark")
+def unit_test_scrapping_config_path():
+    return Path(Path.cwd(), "tests", "resources", "unit_test_scrapping_config.toml").absolute()
