@@ -79,27 +79,3 @@ class RedditWrapper(SourceWrapper):
             )
         else:
             LOGGER.info("%i blogs retrieved from RedditWrapper", len(self.documents))
-
-
-if __name__ == "__main__":
-    secret = "***REMOVED***"
-    app_id = "***REMOVED***"
-    # dev = "***REMOVED***"
-    user_name = "***REMOVED***"
-    # user_name = "aghiles.ahmed.azzoug@gmail.com"
-    # password = "***REMOVED***"
-    password = "dqsdqsd"
-
-    reddit_wrapper = RedditWrapper(
-        sub_reddits=["ChatGPTJailbreak", "PromptEngineering"],
-        max_documents_per_sub_reddit=10,
-        min_submission_score=1,
-        client_id=app_id,
-        client_secret=secret,
-        start_date=datetime.strptime("10/05/2025", "%d/%m/%Y"),
-        end_date=datetime.strptime("20/05/2025", "%d/%m/%Y"),
-    )
-
-    reddit_wrapper.update_documents()
-
-    print(reddit_wrapper.documents)
