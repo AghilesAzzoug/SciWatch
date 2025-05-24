@@ -5,7 +5,7 @@ from sci_watch.source_wrappers.document import Document
 
 
 def test_send_slack_with_summary(mocker):
-    os.environ["SLACK_OAUTH_TOKEN"] = "xoxb-randomoauthtoken"
+    mocker.patch.dict("os.environ", {"SLACK_OAUTH_TOKEN": "xoxb-randomoauthtoken"})
 
     docs = [Document(title="title 1", content="content 1", date="date 1", from_query="Q1", url="url 1"),
             Document(title="title 2", content="content 2", date="date 2", from_query="Q2", url="url 2")]
@@ -27,7 +27,7 @@ def test_send_slack_with_summary(mocker):
 
 
 def test_send_slack_without_summary(mocker):
-    os.environ["SLACK_OAUTH_TOKEN"] = "xoxb-randomoauthtoken"
+    mocker.patch.dict("os.environ", {"SLACK_OAUTH_TOKEN": "xoxb-randomoauthtoken"})
 
     docs = [Document(title="title 1", content="content 1", date="date 1", from_query="Q1", url="url 1"),
             Document(title="title 2", content="content 2", date="date 2", from_query="Q2", url="url 2")]

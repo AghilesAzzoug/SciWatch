@@ -1,0 +1,32 @@
+title = "Unit test config"
+
+end_date = "now"
+time_delta = "01:00:00:00"
+
+[email]
+recipients = ["test@test.test"]
+
+[[query]]
+title = "Jailbreak"
+raw_content = "intitle:(jailbreak OR (prompt* AND injection*))"
+
+[[source]]
+type = "arxiv"
+use_abstract_as_content = true
+search_topic = "cs"
+max_documents = 500
+
+[[source]]
+type = "openai_blog"
+max_documents = 20
+
+[[source]]
+type = "techcrunch"
+search_topic = "category/artificial-intelligence/"
+max_documents = 50
+
+[[source]]
+type = "reddit"
+sub_reddits = ["ChatGPTJailbreak", "PromptEngineering", "ChatGPT", "OpenAI", "deeplearning", "LocalLLaMA"]
+min_submission_score = 2
+max_documents_per_sub_reddit = 20

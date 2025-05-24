@@ -6,6 +6,8 @@ from sci_watch.source_wrappers.document import Document
 
 
 def test_send_email_through_smtp(mocker):
+    mocker.patch.dict("os.environ", {"GMAIL_SENDER": "test@email.com", "GMAIL_TOKEN": "mytoken"})
+
     # Create mock SMTP server
     mock_smtp = mocker.patch("smtplib.SMTP_SSL")
     smtp_instance = mock_smtp.return_value.__enter__.return_value

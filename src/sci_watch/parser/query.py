@@ -1,14 +1,17 @@
+from pathlib import Path
+
 import lark
 from lark import Lark
 
 from sci_watch.core.exceptions import QuerySyntaxError
-from sci_watch.core.settings import settings
 from sci_watch.parser.query_evaluator import QueryEvaluator
 from sci_watch.parser.query_parser import CreateCustomTree, update_search_scope
 from sci_watch.source_wrappers.document import Document
 from sci_watch.utils.logger import get_logger
 
 LOGGER = get_logger(logger_name=__name__)
+
+_GRAMMAR_PATH = Path(Path(__file__).parent, "../assets/grammar.lark")
 
 
 class Query:
@@ -42,7 +45,7 @@ class Query:
         Setup the LALR(1) Lark query parser for later use
         """
         self.parser = Lark.open(
-            settings.grammar_path,
+            _GRAMMAR_PATH,
             parser="lalr",
             start="query",
             debug=True,

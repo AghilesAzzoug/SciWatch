@@ -33,8 +33,8 @@ See [senders](https://aghilesazzoug.github.io/SciWatch/senders.html) documentati
 Example for with Gmail, setup the following env variables:
 
 ```sh
-export gmail_sender=test@email.com
-export gmail_token=your_token
+export GMAIL_SENDER=test@gmail.com
+export GMAIL_TOKEN=your_token
 ```
 
 2. Write a config (`scrapping_config.toml`)
@@ -66,6 +66,12 @@ max_documents = 200
 [[source]]
 type = "openai_blog" # check for latest blogs on OpenAI blog (mainly for GPT updates)
 max_documents = 20
+
+[[source]]
+type = "reddit"
+sub_reddits = ["ChatGPTJailbreak", "PromptEngineering"]
+min_submission_score = 2
+max_documents_per_sub_reddit = 10
 ```
 
 3. Run the watcher

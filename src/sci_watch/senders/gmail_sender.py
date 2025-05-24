@@ -1,10 +1,10 @@
+import os
 import smtplib
 from email.mime.text import MIMEText
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
 
-from sci_watch.core.settings import settings
 from sci_watch.source_wrappers.document import Document
 from sci_watch.utils.logger import get_logger
 
@@ -58,11 +58,13 @@ def _send_email(
     """
     msg = MIMEText(html_body, _subtype="html")
     msg["Subject"] = subject
-    msg["From"] = settings.gmail_sender
+    msg["From"] = os.environ["GMAIL_SENDER"]
     msg["To"] = ", ".join(recipients)
     with smtplib.SMTP_SSL(_SMTP_HOST, _SMTP_PORT) as smtp_server:
-        smtp_server.login(settings.gmail_sender, password=settings.gmail_token)
-        smtp_server.sendmail(settings.gmail_sender, recipients, msg.as_string())
+        smtp_server.login(
+            os.environ["GMAIL_SENDER"], password=os.environ["GMAIL_TOKEN"]
+        )
+        smtp_server.sendmail(os.environ["GMAIL_SENDER"], recipients, msg.as_string())
     LOGGER.info("Email sent!")
 
 

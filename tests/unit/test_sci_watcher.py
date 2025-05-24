@@ -143,3 +143,15 @@ def test_exec(config, mocker):
     assert mock_watcher_exec.call_count == len(sci_watcher.watchers)
     assert mock_send_email.call_args.kwargs["subject"] == f'{sci_watcher.title} - {datetime.now().strftime("%Y-%m-%d")}'
     assert mock_send_email.call_args.kwargs["recipients"] == sci_watcher.email_config["recipients"]
+
+
+def test_toml_load(mocker, unit_test_scrapping_config_path):
+    mocker.patch.dict("os.environ", {"REDDIT_SECRET": "reddit_secret_test", "REDDIT_CLIENT_ID": ""})
+
+    sci_watcher = SciWatcher.from_toml(unit_test_scrapping_config_path)
+
+    assert sci_watcher.title == "Unit test config"
+    assert len(sci_watcher.email_config["recipients"]) == 1 and sci_watcher.email_config["recipients"][
+        0] == "test@test.test"
+
+    assert len(sci_watcher.watchers) == 1
