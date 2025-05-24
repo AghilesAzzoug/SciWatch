@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sci_watch.parser.query_parser module &mdash; sci_watch  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            sci_watch
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Content</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query.html">Query syntax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="senders.html">Senders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_queries.html">Debugging queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grammar.html">Grammar</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sci_watch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">sci_watch.parser.query_parser module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sci_watch.parser.query_parser.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-sci_watch.parser.query_parser">
+<span id="sci-watch-parser-query-parser-module"></span><h1>sci_watch.parser.query_parser module<a class="headerlink" href="#module-sci_watch.parser.query_parser" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sci_watch.parser.query_parser.</span></span><span class="sig-name descname"><span class="pre">CreateCustomTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visit_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Transformer</span></code></p>
+<p>Custom tree transformer class based on Lark Transformers
+each of the methods below is called on the corresponding clause to create a custom Node</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.and_clause">
+<span class="sig-name descname"><span class="pre">and_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.and_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.and_clause" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.begin_clause">
+<span class="sig-name descname"><span class="pre">begin_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.begin_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.begin_clause" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.distance">
+<span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.distance" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.expression">
+<span class="sig-name descname"><span class="pre">expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.expression" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.in_content_clause">
+<span class="sig-name descname"><span class="pre">in_content_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.in_content_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.in_content_clause" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.in_title_clause">
+<span class="sig-name descname"><span class="pre">in_title_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.in_title_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.in_title_clause" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.not_clause">
+<span class="sig-name descname"><span class="pre">not_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.not_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.not_clause" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.or_clause">
+<span class="sig-name descname"><span class="pre">or_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.or_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.or_clause" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.parenthesis_clause">
+<span class="sig-name descname"><span class="pre">parenthesis_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.parenthesis_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.parenthesis_clause" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.proximity">
+<span class="sig-name descname"><span class="pre">proximity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.proximity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.proximity" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.query" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.scoped_query">
+<span class="sig-name descname"><span class="pre">scoped_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.scoped_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.scoped_query" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.scoped_token">
+<span class="sig-name descname"><span class="pre">scoped_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.scoped_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.scoped_token" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.token">
+<span class="sig-name descname"><span class="pre">token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.token" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.CreateCustomTree.word_with_wildcard">
+<span class="sig-name descname"><span class="pre">word_with_wildcard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#CreateCustomTree.word_with_wildcard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.CreateCustomTree.word_with_wildcard" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sci_watch.parser.query_parser.update_search_scope">
+<span class="sig-prename descclassname"><span class="pre">sci_watch.parser.query_parser.</span></span><span class="sig-name descname"><span class="pre">update_search_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_parser.html#update_search_scope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_parser.update_search_scope" title="Permalink to this definition"></a></dt>
+<dd><p>Given the root node of a tree, traverse it and update the search scope for each node, in place</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tree</strong> (<a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><em>Node</em></a>) – Root node of the tree to traverse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aghiles Azzoug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
