@@ -7,7 +7,7 @@ Available senders are:
 Gmail
 -----
 
-Send HTML formatted emails through a gmail address. :code:`gmail_sender` and :code:`gmail_token` env variables must be set.
+Send HTML formatted emails through a gmail address. :code:`GMAIL_SENDER` and :code:`GMAIL_TOKEN` env variables must be set.
 
 .. note::
 
