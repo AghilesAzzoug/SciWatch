@@ -2,7 +2,7 @@ SHELL=/bin/bash
 
 export PYTHONPATH:=${PYTHONPATH}:${PWD}/src
 
-LINTER_THRESHOLD ?= 3
+LINTER_THRESHOLD ?= 8
 COVERAGE_THRESHOLD ?= 90
 VULTURE_THRESHOLD = 80
 
@@ -20,7 +20,7 @@ install-dev:
 
 .PHONY: format
 format:
-	@poetry run python -m black -t py38 src
+	@poetry run python -m black -t py310 src
 
 .PHONY: linter
 linter:
@@ -46,19 +46,11 @@ coverage:
 coverage-report-html:
 	@poetry run python -m coverage html -d ${COVERAGE_HTML_DIR}
 
-.PHONY: reports
-reports: coverage coverage-report-html
+.PHONY: gen-test-reports
+gen-test-reports: coverage coverage-report-html
 	@poetry run python -m coverage report --fail-under=${COVERAGE_THRESHOLD}
 
-.PHONY: build
-build:
-	@poetry build -n
-
 .PHONY: docs
-docs: clean-docs
+docs: 
 	@poetry run sphinx-apidoc -T -M -e -o docs src/sci_watch/
 	@poetry run sphinx-build -M html docs docs/_build
-
-.PHONY: clean-docs
-clean-docs:
-	@rm -rf ${DOCUMENT_BUILD_PATTERN}

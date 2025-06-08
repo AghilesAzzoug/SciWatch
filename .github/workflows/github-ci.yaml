@@ -34,7 +34,7 @@ jobs:
 
       - name: Tests with pytest
         run: |
-          make reports
+          make gen-test-reports
 
       - name: Quality check
         run: |
