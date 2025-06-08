@@ -1,0 +1,7 @@
+sci\_watch.summarizers.openai\_summarizers module
+=================================================
+
+.. automodule:: sci_watch.summarizers.openai_summarizers
+   :members:
+   :undoc-members:
+   :show-inheritance:

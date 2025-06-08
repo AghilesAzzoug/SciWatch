@@ -1,0 +1,7 @@
+sci\_watch.parser.tree\_node module
+===================================
+
+.. automodule:: sci_watch.parser.tree_node
+   :members:
+   :undoc-members:
+   :show-inheritance:

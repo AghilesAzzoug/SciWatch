@@ -1,0 +1,7 @@
+sci\_watch.senders.gmail\_sender module
+=======================================
+
+.. automodule:: sci_watch.senders.gmail_sender
+   :members:
+   :undoc-members:
+   :show-inheritance:

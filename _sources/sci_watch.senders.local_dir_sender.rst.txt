@@ -1,0 +1,7 @@
+sci\_watch.senders.local\_dir\_sender module
+============================================
+
+.. automodule:: sci_watch.senders.local_dir_sender
+   :members:
+   :undoc-members:
+   :show-inheritance:

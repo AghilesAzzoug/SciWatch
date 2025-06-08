@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sci_watch.parser.query_evaluator module &mdash; sci_watch  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            sci_watch
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Content</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query.html">Query syntax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="senders.html">Senders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_queries.html">Debugging queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grammar.html">Grammar</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sci_watch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">sci_watch.parser.query_evaluator module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sci_watch.parser.query_evaluator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-sci_watch.parser.query_evaluator">
+<span id="sci-watch-parser-query-evaluator-module"></span><h1>sci_watch.parser.query_evaluator module<a class="headerlink" href="#module-sci_watch.parser.query_evaluator" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sci_watch.parser.query_evaluator.</span></span><span class="sig-name descname"><span class="pre">QueryEvaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Query evaluator class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.and_clause">
+<span class="sig-name descname"><span class="pre">and_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.and_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.and_clause" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for AND clause</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.begin_clause">
+<span class="sig-name descname"><span class="pre">begin_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.begin_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.begin_clause" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for begin clause</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.default">
+<span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.default" title="Permalink to this definition"></a></dt>
+<dd><p>Default callback method</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.eval_tree">
+<span class="sig-name descname"><span class="pre">eval_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.eval_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.eval_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluate a tree in-place</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tree</strong> (<a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><em>Node</em></a>) – The root node of the tree to evaluate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.expression">
+<span class="sig-name descname"><span class="pre">expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.expression" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for expression clause</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.in_content_clause">
+<span class="sig-name descname"><span class="pre">in_content_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.in_content_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.in_content_clause" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for in_content clause</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.in_title_clause">
+<span class="sig-name descname"><span class="pre">in_title_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.in_title_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.in_title_clause" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for in_title clause</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.not_clause">
+<span class="sig-name descname"><span class="pre">not_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.not_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.not_clause" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for NOT clause</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.or_clause">
+<span class="sig-name descname"><span class="pre">or_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.or_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.or_clause" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for OR clause</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.parenthesis_clause">
+<span class="sig-name descname"><span class="pre">parenthesis_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.parenthesis_clause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.parenthesis_clause" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for parenthesis clause</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.proximity">
+<span class="sig-name descname"><span class="pre">proximity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.proximity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.proximity" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for proximity clause</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sci_watch.parser.query_evaluator.QueryEvaluator.word_with_wildcard">
+<span class="sig-name descname"><span class="pre">word_with_wildcard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sci_watch.parser.tree_node.html#sci_watch.parser.tree_node.Node" title="sci_watch.parser.tree_node.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sci_watch/parser/query_evaluator.html#QueryEvaluator.word_with_wildcard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sci_watch.parser.query_evaluator.QueryEvaluator.word_with_wildcard" title="Permalink to this definition"></a></dt>
+<dd><p>Callback method for words/words with wildcards</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aghiles Azzoug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

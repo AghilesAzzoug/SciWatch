@@ -1,0 +1,18 @@
+sci\_watch.parser package
+=========================
+
+.. automodule:: sci_watch.parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   sci_watch.parser.query
+   sci_watch.parser.query_evaluator
+   sci_watch.parser.query_parser
+   sci_watch.parser.tree_node

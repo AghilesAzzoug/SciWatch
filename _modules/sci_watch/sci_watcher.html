@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sci_watch.sci_watcher &mdash; sci_watch  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            sci_watch
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Content</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../query.html">Query syntax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../senders.html">Senders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../debugging_queries.html">Debugging queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../grammar.html">Grammar</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sci_watch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sci_watch.sci_watcher</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sci_watch.sci_watcher</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">pytz</span>
+<span class="kn">import</span> <span class="nn">toml</span>
+
+<span class="kn">from</span> <span class="nn">sci_watch.parser.query</span> <span class="kn">import</span> <span class="n">Query</span>
+<span class="kn">from</span> <span class="nn">sci_watch.senders.gmail_sender</span> <span class="kn">import</span> <span class="n">send_email</span>
+<span class="kn">from</span> <span class="nn">sci_watch.senders.local_dir_sender</span> <span class="kn">import</span> <span class="n">write_on_file</span>
+<span class="kn">from</span> <span class="nn">sci_watch.senders.slack_sender</span> <span class="kn">import</span> <span class="n">send_slack</span>
+<span class="kn">from</span> <span class="nn">sci_watch.senders.teams_sender</span> <span class="kn">import</span> <span class="n">send_teams</span>
+<span class="kn">from</span> <span class="nn">sci_watch.source_wrappers.abstract_wrapper</span> <span class="kn">import</span> <span class="n">SourceWrapper</span>
+<span class="kn">from</span> <span class="nn">sci_watch.source_wrappers.arxiv_wrapper</span> <span class="kn">import</span> <span class="n">ArxivWrapper</span>
+<span class="kn">from</span> <span class="nn">sci_watch.source_wrappers.openai_wrapper</span> <span class="kn">import</span> <span class="n">OpenAIBlogWrapper</span>
+<span class="kn">from</span> <span class="nn">sci_watch.source_wrappers.reddit_wrapper</span> <span class="kn">import</span> <span class="n">RedditWrapper</span>
+<span class="kn">from</span> <span class="nn">sci_watch.source_wrappers.techcrunch_wrapper</span> <span class="kn">import</span> <span class="n">TechCrunchWrapper</span>
+<span class="kn">from</span> <span class="nn">sci_watch.summarizers</span> <span class="kn">import</span> <span class="n">AbstractSummarizer</span><span class="p">,</span> <span class="n">get_summarizer</span>
+<span class="kn">from</span> <span class="nn">sci_watch.utils.logger</span> <span class="kn">import</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">logging_wrapper</span>
+<span class="kn">from</span> <span class="nn">sci_watch.watcher.watcher</span> <span class="kn">import</span> <span class="n">Watcher</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SciWatcher"><a class="viewcode-back" href="../../sci_watch.sci_watcher.html#sci_watch.sci_watcher.SciWatcher">[docs]</a><span class="k">class</span> <span class="nc">SciWatcher</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        config: dict</span>
+<span class="sd">            Configuration object containing the title, end_date, time_delta, recipients, sources, and queries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="o">.</span><span class="n">localize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_end_date</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;end_date&quot;</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_time_delta</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;time_delta&quot;</span><span class="p">])</span>
+
+        <span class="c1"># TODO: refactor fast. FAST!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">email_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">email_config</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Email config: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">email_config</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">teams_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;teams&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">teams_config</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Teams config: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">teams_config</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">slack_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;slack&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slack_config</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Slack config: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">slack_config</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_dir_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;local_dir&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_dir_config</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Local dir config: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_dir_config</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">summarization_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;summarize&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">summarizer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">summarization_config</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Creating summarizer with config: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">summarization_config</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">summarizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_summarizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">summarization_config</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">email_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">teams_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">),</span> <span class="s2">&quot;Email and/or Teams config should be set.&quot;</span>
+
+        <span class="n">sources</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_sources</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">])</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Got </span><span class="si">%i</span><span class="s2"> sources&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sources</span><span class="p">))</span>
+
+        <span class="n">queries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_queries</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">])</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Got </span><span class="si">%i</span><span class="s2"> queries&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">watchers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Watcher</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">sources</span><span class="o">=</span><span class="n">sources</span><span class="p">)</span> <span class="k">for</span> <span class="n">query</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">]</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Got </span><span class="si">%i</span><span class="s2"> watchers&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watchers</span><span class="p">))</span>
+
+<div class="viewcode-block" id="SciWatcher.from_toml"><a class="viewcode-back" href="../../sci_watch.sci_watcher.html#sci_watch.sci_watcher.SciWatcher.from_toml">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_toml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SciWatcher</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Scrapper from toml file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path: os.PathLike</span>
+<span class="sd">            Path to a .toml file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Scrapper:</span>
+<span class="sd">            A scrapper object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@logging_wrapper</span><span class="p">(</span><span class="n">LOGGER</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_get_summarizer</span><span class="p">(</span><span class="n">summarizer_config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">AbstractSummarizer</span><span class="p">:</span>
+        <span class="n">summarizer_type</span> <span class="o">=</span> <span class="n">summarizer_config</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">get_summarizer</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">summarizer_type</span><span class="p">,</span> <span class="n">summarizer_kwargs</span><span class="o">=</span><span class="n">summarizer_config</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_time_delta</span><span class="p">(</span><span class="n">time_delta</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">timedelta</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse `time_delta` string into `time.timedelta` object</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        time_delta: str</span>
+<span class="sd">            Time delta string to parse</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        timedelta:</span>
+<span class="sd">            Parsed `time.timedelta` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">time_delta</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_delta</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">:%H:%M:%S&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span>
+            <span class="n">days</span><span class="o">=</span><span class="n">time_delta</span><span class="o">.</span><span class="n">day</span><span class="p">,</span>
+            <span class="n">hours</span><span class="o">=</span><span class="n">time_delta</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
+            <span class="n">minutes</span><span class="o">=</span><span class="n">time_delta</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span>
+            <span class="n">seconds</span><span class="o">=</span><span class="n">time_delta</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_end_date</span><span class="p">(</span><span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse an `end_date` string into a `time.datetime` object</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        end_date: str</span>
+<span class="sd">            String representation of end date</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        datetime:</span>
+<span class="sd">            End date as `time.datetime` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">end_date</span> <span class="o">==</span> <span class="s2">&quot;now&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s1">&#39;Currently only &quot;now&quot; is supported for &quot;end_date&quot; field&#39;</span>
+            <span class="p">)</span>
+
+    <span class="nd">@logging_wrapper</span><span class="p">(</span><span class="n">LOGGER</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_load_sources</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sources</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SourceWrapper</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load sources from their string representation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sources: list[dict]</span>
+<span class="sd">            List of sources with their parameters as a dict/string representation</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[SourceWrapper]:</span>
+<span class="sd">            List of ready to use `SourceWrapper` subclasses objects (sources)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">source_objects</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">source_params</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">:</span>
+            <span class="n">source_type</span> <span class="o">=</span> <span class="n">source_params</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">source_type</span> <span class="o">==</span> <span class="s2">&quot;arxiv&quot;</span><span class="p">:</span>
+                <span class="n">source_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">ArxivWrapper</span><span class="p">(</span>
+                        <span class="n">start_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span>
+                        <span class="n">end_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_date</span><span class="p">,</span>
+                        <span class="n">search_topic</span><span class="o">=</span><span class="n">source_params</span><span class="p">[</span><span class="s2">&quot;search_topic&quot;</span><span class="p">],</span>
+                        <span class="n">max_documents</span><span class="o">=</span><span class="n">source_params</span><span class="p">[</span><span class="s2">&quot;max_documents&quot;</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">source_type</span> <span class="o">==</span> <span class="s2">&quot;techcrunch&quot;</span><span class="p">:</span>
+                <span class="n">source_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">TechCrunchWrapper</span><span class="p">(</span>
+                        <span class="n">start_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span>
+                        <span class="n">end_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_date</span><span class="p">,</span>
+                        <span class="n">search_topic</span><span class="o">=</span><span class="n">source_params</span><span class="p">[</span><span class="s2">&quot;search_topic&quot;</span><span class="p">],</span>
+                        <span class="n">max_documents</span><span class="o">=</span><span class="n">source_params</span><span class="p">[</span><span class="s2">&quot;max_documents&quot;</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">source_type</span> <span class="o">==</span> <span class="s2">&quot;openai_blog&quot;</span><span class="p">:</span>
+                <span class="n">source_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">OpenAIBlogWrapper</span><span class="p">(</span>
+                        <span class="n">start_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span>
+                        <span class="n">end_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_date</span><span class="p">,</span>
+                        <span class="n">max_documents</span><span class="o">=</span><span class="n">source_params</span><span class="p">[</span><span class="s2">&quot;max_documents&quot;</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">source_type</span> <span class="o">==</span> <span class="s2">&quot;reddit&quot;</span><span class="p">:</span>
+                <span class="n">source_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">RedditWrapper</span><span class="p">(</span>
+                        <span class="n">start_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span>
+                        <span class="n">end_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_date</span><span class="p">,</span>
+                        <span class="n">sub_reddits</span><span class="o">=</span><span class="n">source_params</span><span class="p">[</span><span class="s2">&quot;sub_reddits&quot;</span><span class="p">],</span>
+                        <span class="n">min_submission_score</span><span class="o">=</span><span class="n">source_params</span><span class="p">[</span><span class="s2">&quot;min_submission_score&quot;</span><span class="p">],</span>
+                        <span class="n">max_documents_per_sub_reddit</span><span class="o">=</span><span class="n">source_params</span><span class="p">[</span>
+                            <span class="s2">&quot;max_documents_per_sub_reddit&quot;</span>
+                        <span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No source named </span><span class="si">{</span><span class="n">source_type</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">source_objects</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@logging_wrapper</span><span class="p">(</span><span class="n">LOGGER</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_load_queries</span><span class="p">(</span><span class="n">queries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Query</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load queries from their string representation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        queries: list[dict]</span>
+<span class="sd">            List of queries with their parameters as a dict/string representation</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[Query]:</span>
+<span class="sd">            List of ready-to-use query objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query_objects</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">query_params</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">:</span>
+            <span class="n">current_query</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">query_params</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">],</span> <span class="n">raw_content</span><span class="o">=</span><span class="n">query_params</span><span class="p">[</span><span class="s2">&quot;raw_content&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+            <span class="n">query_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_query</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">query_objects</span>
+
+<div class="viewcode-block" id="SciWatcher.exec"><a class="viewcode-back" href="../../sci_watch.sci_watcher.html#sci_watch.sci_watcher.SciWatcher.exec">[docs]</a>    <span class="nd">@logging_wrapper</span><span class="p">(</span><span class="n">LOGGER</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">exec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the queries on all the sources, sends an email and/or teams message if relevant documents are found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">watcher</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">watchers</span><span class="p">:</span>
+            <span class="n">docs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">watcher</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Got </span><span class="si">%i</span><span class="s2"> documents in total&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">))</span>
+            <span class="n">summaries</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">summarizer</span><span class="o">.</span><span class="n">batch_summarize</span><span class="p">(</span><span class="n">docs</span><span class="o">=</span><span class="n">docs</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">summarizer</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_dir_config</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing locally at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_dir_config</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">])</span>
+                <span class="n">write_on_file</span><span class="p">(</span>
+                    <span class="n">docs</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span>
+                    <span class="n">summaries</span><span class="o">=</span><span class="n">summaries</span><span class="p">,</span>
+                    <span class="n">output_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">local_dir_config</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]),</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slack_config</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Sending slack message&quot;</span><span class="p">)</span>
+                <span class="n">send_slack</span><span class="p">(</span>
+                    <span class="n">channel_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">slack_config</span><span class="p">[</span><span class="s2">&quot;channel_id&quot;</span><span class="p">],</span>
+                    <span class="n">documents</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span>
+                    <span class="n">summaries</span><span class="o">=</span><span class="n">summaries</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">email_config</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Sending email&quot;</span><span class="p">)</span>
+                <span class="n">send_email</span><span class="p">(</span>
+                    <span class="n">subject</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">recipients</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">email_config</span><span class="p">[</span><span class="s2">&quot;recipients&quot;</span><span class="p">],</span>
+                    <span class="n">docs</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span>
+                    <span class="n">summaries</span><span class="o">=</span><span class="n">summaries</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">teams_config</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Sending teams message&quot;</span><span class="p">)</span>
+                <span class="n">send_teams</span><span class="p">(</span>
+                    <span class="n">webhook_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">teams_config</span><span class="p">[</span><span class="s2">&quot;webhook_url&quot;</span><span class="p">],</span>
+                    <span class="n">docs</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span>
+                    <span class="n">summaries</span><span class="o">=</span><span class="n">summaries</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Got 0 relevant documents using the config </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aghiles Azzoug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

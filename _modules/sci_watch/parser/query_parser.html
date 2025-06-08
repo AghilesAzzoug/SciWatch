@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sci_watch.parser.query_parser &mdash; sci_watch  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            sci_watch
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Content</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../query.html">Query syntax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../senders.html">Senders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../debugging_queries.html">Debugging queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../grammar.html">Grammar</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sci_watch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sci_watch.parser.query_parser</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sci_watch.parser.query_parser</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">lark</span> <span class="kn">import</span> <span class="n">Transformer</span>
+
+<span class="kn">from</span> <span class="nn">sci_watch.parser.tree_node</span> <span class="kn">import</span> <span class="n">Node</span>
+
+
+<div class="viewcode-block" id="CreateCustomTree"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree">[docs]</a><span class="k">class</span> <span class="nc">CreateCustomTree</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom tree transformer class based on Lark Transformers</span>
+<span class="sd">    each of the methods below is called on the corresponding clause to create a custom Node</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CreateCustomTree.scoped_query"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.scoped_query">[docs]</a>    <span class="k">def</span> <span class="nf">scoped_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="k">return</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.and_clause"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.and_clause">[docs]</a>    <span class="k">def</span> <span class="nf">and_clause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">nodes</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;and_clause&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;AND&quot;</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">left</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">right</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">],</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.or_clause"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.or_clause">[docs]</a>    <span class="k">def</span> <span class="nf">or_clause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">nodes</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;or_clause&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;OR&quot;</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">left</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">right</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">],</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.word_with_wildcard"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.word_with_wildcard">[docs]</a>    <span class="k">def</span> <span class="nf">word_with_wildcard</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">values</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="n">wildcard_node</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">wildcard_word</span> <span class="o">=</span> <span class="n">wildcard_node</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="s2">&quot;(?:.{0,1})&quot;</span><span class="p">)</span>
+        <span class="n">wildcard_word</span> <span class="o">=</span> <span class="n">wildcard_word</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="s2">&quot;(?:.*)&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;word_with_wildcard&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;\b</span><span class="si">{</span><span class="n">wildcard_word</span><span class="si">}</span><span class="s2">\b&quot;</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">wildcard_node</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">wildcard_node</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.expression"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.expression">[docs]</a>    <span class="k">def</span> <span class="nf">expression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="n">expression_str</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;expression&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;\b</span><span class="si">{</span><span class="n">expression_str</span><span class="si">}</span><span class="s2">\b&quot;</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.distance"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.distance">[docs]</a>    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="k">return</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.proximity"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.proximity">[docs]</a>    <span class="k">def</span> <span class="nf">proximity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">r</span><span class="s2">&quot;\b&quot;</span>
+            <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\s+(?:\S+\s+){{0,</span><span class="si">{}</span><span class="s2">}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="nb">map</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span>
+            <span class="p">)</span>
+            <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\b&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;proximity&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.not_clause"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.not_clause">[docs]</a>    <span class="k">def</span> <span class="nf">not_clause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;not_clause&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;NOT&quot;</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">left</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">right</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">],</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.parenthesis_clause"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.parenthesis_clause">[docs]</a>    <span class="k">def</span> <span class="nf">parenthesis_clause</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="n">left_par</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">right_par</span> <span class="o">=</span> <span class="n">nodes</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;parenthesis_clause&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;()&quot;</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">left_par</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">right_par</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">node</span><span class="p">],</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.in_title_clause"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.in_title_clause">[docs]</a>    <span class="k">def</span> <span class="nf">in_title_clause</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;in_title_clause&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.in_content_clause"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.in_content_clause">[docs]</a>    <span class="k">def</span> <span class="nf">in_content_clause</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;in_content_clause&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Content&quot;</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.begin_clause"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.begin_clause">[docs]</a>    <span class="k">def</span> <span class="nf">begin_clause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;begin&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Begin&quot;</span><span class="p">,</span>
+            <span class="n">start_pos</span><span class="o">=</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">start_pos</span><span class="p">,</span>
+            <span class="n">end_pos</span><span class="o">=</span><span class="n">nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.query"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="k">return</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.token"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.token">[docs]</a>    <span class="k">def</span> <span class="nf">token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="k">return</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="CreateCustomTree.scoped_token"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.CreateCustomTree.scoped_token">[docs]</a>    <span class="k">def</span> <span class="nf">scoped_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="k">return</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">_update_search_scope</span><span class="p">(</span><span class="n">tree</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">search_scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a node and a search scope (e.g. &quot;in_content&quot;), propagate it to all the subtree, in place</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tree : Node</span>
+<span class="sd">        Root node of the tree where to propagate the scope</span>
+<span class="sd">    search_scope: str</span>
+<span class="sd">        The search scope</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">search_scope</span> <span class="o">=</span> <span class="n">search_scope</span>
+    <span class="k">if</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="n">_update_search_scope</span><span class="p">(</span><span class="n">tree</span><span class="o">=</span><span class="n">child</span><span class="p">,</span> <span class="n">search_scope</span><span class="o">=</span><span class="n">search_scope</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="update_search_scope"><a class="viewcode-back" href="../../../sci_watch.parser.query_parser.html#sci_watch.parser.query_parser.update_search_scope">[docs]</a><span class="k">def</span> <span class="nf">update_search_scope</span><span class="p">(</span><span class="n">tree</span><span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given the root node of a tree, traverse it and update the search scope for each node, in place</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tree: Node</span>
+<span class="sd">        Root node of the tree to traverse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tree</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;in_title_clause&quot;</span><span class="p">:</span>
+        <span class="n">_update_search_scope</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">search_scope</span><span class="o">=</span><span class="s2">&quot;title&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">tree</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;in_content_clause&quot;</span><span class="p">:</span>
+        <span class="n">_update_search_scope</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">search_scope</span><span class="o">=</span><span class="s2">&quot;content&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">tree</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;begin_clause&quot;</span><span class="p">:</span>
+        <span class="n">_update_search_scope</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">search_scope</span><span class="o">=</span><span class="s2">&quot;begin&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+                <span class="n">update_search_scope</span><span class="p">(</span><span class="n">tree</span><span class="o">=</span><span class="n">child</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aghiles Azzoug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

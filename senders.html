@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Senders &mdash; sci_watch  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Debugging queries" href="debugging_queries.html" />
+    <link rel="prev" title="Query syntax" href="query.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            sci_watch
+          </a>
+              <div class="version">
+                1.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Content</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query.html">Query syntax</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Senders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gmail">Gmail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#microsoft-teams-untested-yet">Microsoft Teams (Untested yet !)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#slack">Slack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#local-directory">Local directory</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_queries.html">Debugging queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grammar.html">Grammar</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sci_watch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Senders</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/senders.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="senders">
+<span id="id1"></span><h1>Senders<a class="headerlink" href="#senders" title="Permalink to this heading"></a></h1>
+<p>Available senders are:</p>
+<section id="gmail">
+<h2>Gmail<a class="headerlink" href="#gmail" title="Permalink to this heading"></a></h2>
+<p>Send HTML formatted emails through a gmail address. <code class="code docutils literal notranslate"><span class="pre">GMAIL_SENDER</span></code> and <code class="code docutils literal notranslate"><span class="pre">GMAIL_TOKEN</span></code> env variables must be set.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Check <a class="reference external" href="https://support.google.com/accounts/answer/185833?hl=en">https://support.google.com/accounts/answer/185833?hl=en</a> for more details</p>
+</div>
+<p>To enable email sender, simply add an <code class="code docutils literal notranslate"><span class="pre">email</span></code> block in the scrapping config, alongside with <code class="code docutils literal notranslate"><span class="pre">recipients</span></code> field (list of emails), as follows:</p>
+<div class="highlight-Toml notranslate"><div class="highlight"><pre><span></span><span class="k">[email]</span>
+<span class="n">recipients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;aghiles.ahmed.azzoug@gmail.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;second_email@outlook.fr&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="microsoft-teams-untested-yet">
+<h2>Microsoft Teams (Untested yet !)<a class="headerlink" href="#microsoft-teams-untested-yet" title="Permalink to this heading"></a></h2>
+<p>Support for Microsoft Teams is accessible but has not undergone real webhook testing yet.
+If you encounter any issues, please don’t hesitate to submit an issue or pull request.</p>
+<p>To enable teams message, set the <code class="code docutils literal notranslate"><span class="pre">teams</span></code> block in the config file with the <code class="code docutils literal notranslate"><span class="pre">webhook_url</span></code> (You channel webhook URL), as follows:</p>
+<div class="highlight-Toml notranslate"><div class="highlight"><pre><span></span><span class="k">[teams]</span>
+<span class="n">webhook_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://test_webhook.com/test=123xyz&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="slack">
+<h2>Slack<a class="headerlink" href="#slack" title="Permalink to this heading"></a></h2>
+<p>Support for Slack is enabled, although it may not be visually appealing.
+You can activate it by configuring the <code class="code docutils literal notranslate"><span class="pre">slack</span></code> block in the config file, along with the <code class="code docutils literal notranslate"><span class="pre">channel_id</span></code>.
+Additionally, ensure that the <code class="code docutils literal notranslate"><span class="pre">SLACK_OAUTH_TOKEN</span></code> environment variable is set.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="code docutils literal notranslate"><span class="pre">SLACK_OAUTH_TOKEN</span></code> is the bot oauth token (starts with <code class="code docutils literal notranslate"><span class="pre">xoxb-</span></code>). For more details, see <a class="reference external" href="https://api.slack.com/authentication/token-types#bot">https://api.slack.com/authentication/token-types#bot</a></p>
+</div>
+<p>Example in the config file:</p>
+<div class="highlight-Toml notranslate"><div class="highlight"><pre><span></span><span class="k">[slack]</span>
+<span class="n">channel_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-channel&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="local-directory">
+<h2>Local directory<a class="headerlink" href="#local-directory" title="Permalink to this heading"></a></h2>
+<p>The “Local directory” isn’t exactly a “sender.”</p>
+<p>Its primary function is to maintain HTML documents for debugging purposes.</p>
+<p>In the config file it looks as follows:</p>
+<div class="highlight-Toml notranslate"><div class="highlight"><pre><span></span><span class="k">[local_dir]</span>
+<span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./tmp&quot;</span>
+</pre></div>
+</div>
+<p>Html pages will be saved at <code class="code docutils literal notranslate"><span class="pre">{CWD}/tmp</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="query.html" class="btn btn-neutral float-left" title="Query syntax" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="debugging_queries.html" class="btn btn-neutral float-right" title="Debugging queries" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aghiles Azzoug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

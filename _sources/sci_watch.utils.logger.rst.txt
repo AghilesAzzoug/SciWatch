@@ -1,0 +1,7 @@
+sci\_watch.utils.logger module
+==============================
+
+.. automodule:: sci_watch.utils.logger
+   :members:
+   :undoc-members:
+   :show-inheritance:

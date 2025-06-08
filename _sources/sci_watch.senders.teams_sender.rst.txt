@@ -1,0 +1,7 @@
+sci\_watch.senders.teams\_sender module
+=======================================
+
+.. automodule:: sci_watch.senders.teams_sender
+   :members:
+   :undoc-members:
+   :show-inheritance:

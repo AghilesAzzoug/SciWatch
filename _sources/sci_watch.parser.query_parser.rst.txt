@@ -1,0 +1,7 @@
+sci\_watch.parser.query\_parser module
+======================================
+
+.. automodule:: sci_watch.parser.query_parser
+   :members:
+   :undoc-members:
+   :show-inheritance:

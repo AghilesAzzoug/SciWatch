@@ -1,0 +1,7 @@
+sci\_watch.source\_wrappers.document module
+===========================================
+
+.. automodule:: sci_watch.source_wrappers.document
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,18 @@
+sci\_watch.senders package
+==========================
+
+.. automodule:: sci_watch.senders
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   sci_watch.senders.gmail_sender
+   sci_watch.senders.local_dir_sender
+   sci_watch.senders.slack_sender
+   sci_watch.senders.teams_sender
